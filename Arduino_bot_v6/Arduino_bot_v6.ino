@@ -37,8 +37,8 @@ int leftdist;
 int rightdist;
 int obstaculo;
 int state = 1;
-int onoff = 0;
-int autoroute = 0;
+int onoff = 1;
+int autoroute = 1;
 int speed_val;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
@@ -70,11 +70,11 @@ void setup ()
   // Tada
   // tone(speaker, frequency, duration)
   serial('Iniciando Sistema');
-  tone(speaker, 200, 300);
+  //tone(speaker, 200, 300);
   delay(100);
-  tone(speaker, 300, 400);
+  //tone(speaker, 300, 400);
   delay(80);
-  tone(speaker, 100, 300);
+  //tone(speaker, 100, 300);
 
   digitalWrite(LED, LOW);
 
@@ -84,7 +84,7 @@ void setup ()
 }
 
 void loop(){
-  infrared();
+  //infrared();
 
  //Velocidade dos motores
 if (onoff == 1) {
@@ -107,16 +107,16 @@ if (onoff == 1) {
         serial('nehum obstaculo em menos de 8cm tocando o barco' || obstaculo || 'cm');
         if(obstaculo > 20 ) { //triplica a velocidade se nao encontrar nada por perto
             serial('nenhum obstaculo em menos de 30cm triplica velocidade' || obstaculo || 'cm');
-            tone(speaker, 5000, 20);
+            //tone(speaker, 5000, 20);
             speed_val = speed_val*5;
             }
-    tone(speaker, (obstaculo*50), 2);
+    //tone(speaker, (obstaculo*50), 2);
     MOTOR_forward(speed_val);
     }
     //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
     if(obstaculo <= 8) {
         serial('Obstaculo encontrado a ' || obstaculo);
-        tone(speaker, (obstaculo*100), 30);
+        //tone(speaker, (obstaculo*100), 30);
         findroute();
     }
  } //auto
@@ -132,13 +132,13 @@ void findroute() {
   serial('Para onde eu viro? ' || leftdist || ' vs ' || rightdist);
  if ( leftdist > rightdist )  // decide para que lado virar
  {
-   tone(speaker, (3000), 30);
+   //tone(speaker, (3000), 30);
    serial('Esquerda ');
    MOTOR_turnleft(speed_val);
  }
  else
  {
-    tone(speaker, (1000), 30);
+    ////tone(speaker, (1000), 30);
     serial('Direita ');
     MOTOR_turnright(speed_val);
  }
@@ -171,7 +171,7 @@ void lookright () {
 void MOTOR_forward(int X) {
   analogWrite(M1_PWM, X);    //Velocidade motor Direito
   analogWrite(M2_PWM, X );   //Velocidade motor Esquerdo
-  digitalWrite(LED, HIGH);
+  //digitalWrite(LED, HIGH);
   serial('Vou para frente ' || distance || 'cm');
   digitalWrite(motor_pin1,LOW);   //Motor L -
   digitalWrite(motor_pin2,HIGH);  //Motor L +
@@ -267,12 +267,12 @@ int ping() {
         if (speed_val > 250){
             speed_val = 255;
             Serial.println(" MAX ");
-            tone(speaker, (6100), 90);
+            //tone(speaker, (6100), 90);
         }
         if (speed_val < 0){
             speed_val = 0;
             Serial.println(" MIN ");
-            tone(speaker, (5100), 90);
+            //tone(speaker, (5100), 90);
         }
      } //end test_speed
 
@@ -315,42 +315,42 @@ char serial(char X){
 
 char infrared(){
   if (irrecv.decode(&results)) {
-      tone(speaker, (12100), 40);
+      //tone(speaker, (12100), 40);
     digitalWrite(LED, HIGH);
     Serial.println(results.value);
-    if (results.value == 3041526525){
+    if (results.value == 3041526525){ // ↑
          MOTOR_forward(speed_val);
          delay (25);
     }
-     else if (results.value == 3041575485){
+     else if (results.value == 3041575485){ // Remote →
          MOTOR_turnright(speed_val);
          delay (25);
      }
-     else if (results.value == 3041542845){
+     else if (results.value == 3041542845){ // Remote ←
          MOTOR_turnleft(speed_val);
          delay (25);
      }
-     else if (results.value == 3041559165){
+     else if (results.value == 3041559165){ // Remote ↓
          MOTOR_backward(speed_val);
          delay (25);
      }
-     else if (results.value == 3041546415){
+     else if (results.value == 3041546415){ // Remote +
      speed_val = speed_val + 5;
          Serial.println(" SPEED " || speed_val);
          test_speed();
          delay (25);
      }
-     else if (results.value == 3041579055){
+     else if (results.value == 3041579055){ // Remote -
      speed_val = speed_val - 5;
          Serial.println(" SPEED " || speed_val);
          test_speed();
          delay (25);
      }
-     else if (results.value == 3041579055){
+     else if (results.value == 3041536215 ){ // Remote BMS
         MOTOR_halt();
         digitalWrite(LED, LOW);
           }
-     else if (results.value == 3041526525){
+     else if (results.value == 3041556615 ){ // Remote CD
         if (onoff = 1) {
            onoff == 0;
         }
@@ -358,7 +358,7 @@ char infrared(){
            onoff == 1;
         }
         }
-     else if (results.value == 3041526525){
+     else if (results.value == 3041540295){ // Remote TUNER
         if (autoroute = 1) {
            autoroute == 0;
         }
