@@ -74,7 +74,7 @@ void setup ()
 
   // Tada
   // tone(speaker, frequency, duration)
-  serial('Iniciando Sistema');
+  // serial('Iniciando Sistema');
   //tone(speaker, 200, 300);
   delay(100);
   //tone(speaker, 300, 400);
@@ -89,29 +89,29 @@ void setup ()
 }
 
 void loop(){
-  infrared();
+  //infrared();
 
  //Velocidade dos motores
-if (onoff == 1) {
+//if (onoff == 1) {
     analogWrite(M1_PWM, 80); //Velocidade motor Direito
     analogWrite(M2_PWM, 80); //Velocidade motor Esquerdo
- } else{
-    analogWrite(M1_PWM, 0); //Velocidade motor Direito
-    analogWrite(M2_PWM, 0); //Velocidade motor Esquerdo
- }
+// } else{
+//    analogWrite(M1_PWM, 0); //Velocidade motor Direito
+//    analogWrite(M2_PWM, 0); //Velocidade motor Esquerdo
+// }
 
  // Potenciometro
  potval = analogRead(potpin);               // Le o valor do potenciometro (valor 0 a 1023)
  potval = map(potval, 0, 1023, 0, 255);     // Coloca o valor recebido do potenciometro na escala de 0 a 180 graus
  speed_val = potval;
- serial('Velocidade' || potval);
+ // serial('Velocidade' || potval);
  //Explorar se nao houver obstaculo em menos de 8cm toca o barco
  obstaculo = ping();
  if (autoroute = 1) {
     if(obstaculo > 8 ) {
-        serial('nehum obstaculo em menos de 8cm tocando o barco' || obstaculo || 'cm');
+        // serial('nehum obstaculo em menos de 8cm tocando o barco' || obstaculo || 'cm');
         if(obstaculo > 20 ) { //triplica a velocidade se nao encontrar nada por perto
-            serial('nenhum obstaculo em menos de 30cm triplica velocidade' || obstaculo || 'cm');
+            // serial('nenhum obstaculo em menos de 30cm triplica velocidade' || obstaculo || 'cm');
             //tone(speaker, 5000, 20);
             speed_val = speed_val*5;
             }
@@ -120,7 +120,7 @@ if (onoff == 1) {
     }
     //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
     if(obstaculo <= 8) {
-        serial('Obstaculo encontrado a ' || obstaculo);
+        //serial('Obstaculo encontrado a ' || obstaculo);
         //tone(speaker, (obstaculo*100), 30);
         findroute();
     }
@@ -134,17 +134,17 @@ void findroute() {
   MOTOR_backward(speed_val);   // Anda para tras
   lookleft();                  // Olha para esquerda e retorna distancia do objeto
   lookright();                 // Olha para direita e retorna distancia do objeto
-  serial('Para onde eu viro? ' || leftdist || ' vs ' || rightdist);
+  //serial('Para onde eu viro? ' || leftdist || ' vs ' || rightdist);
  if ( leftdist > rightdist )  // decide para que lado virar
  {
    //tone(speaker, (3000), 30);
-   serial('Esquerda ');
+   //serial('Esquerda ');
    MOTOR_turnleft(speed_val);
  }
  else
  {
     //tone(speaker, (1000), 30);
-    serial('Direita ');
+    //serial('Direita ');
     MOTOR_turnright(speed_val);
  }
 }
@@ -154,8 +154,8 @@ void lookleft() {
   myservo.write(30);
   delay(700);
   leftdist = ping();
-  serial('Olhando para esquerda ');
-  serial('Obstaculo a ' || leftdist || 'cm');
+  //serial('Olhando para esquerda ');
+  //serial('Obstaculo a ' || leftdist || 'cm');
   myservo.write(90);
   delay(200);
   return;
@@ -166,8 +166,8 @@ void lookright () {
   myservo.write(150);
   delay(700);
   rightdist = ping();
-  serial('Olhando para Direita ');
-  serial('Obstaculo a ' || rightdist || 'cm');
+  //serial('Olhando para Direita ');
+  //serial('Obstaculo a ' || rightdist || 'cm');
   myservo.write(90);
   delay(200);
   return;
@@ -177,7 +177,7 @@ void MOTOR_forward(int X) {
   analogWrite(M1_PWM, X);    //Velocidade motor Direito
   analogWrite(M2_PWM, X );   //Velocidade motor Esquerdo
   digitalWrite(LED, HIGH);
-  serial('Vou para frente ' || distance || 'cm');
+  //serial('Vou para frente ' || distance || 'cm');
   digitalWrite(motor_pin1,LOW);   //Motor L -
   digitalWrite(motor_pin2,HIGH);  //Motor L +
   digitalWrite(motor_pin3,LOW);   //Motor R -
@@ -190,7 +190,7 @@ void MOTOR_forward(int X) {
 void MOTOR_backward(int X) {
    analogWrite(M1_PWM, X);         //Velocidade motor Direito
    analogWrite(M2_PWM, X);         //Velocidade motor Esquerdo
-   serial('Voltando ');
+   // serial('Voltando ');
    digitalWrite(motor_pin1,HIGH);  //Motor L -
    digitalWrite(motor_pin2,LOW);   //Motor L +
    digitalWrite(motor_pin3,HIGH);  //Motor R -
@@ -207,8 +207,8 @@ void MOTOR_turnleft (int X) {     //inverte motor esquerdo virando para esquerda
   digitalWrite(motor_pin2,LOW);   //Motor L +
   digitalWrite(motor_pin3,LOW);   //Motor R -
   digitalWrite(motor_pin4,HIGH);  //Motor R +
- if ( rightdist < 90 || rightdist > 4 ) {
-  delay(200*rightdist);
+ if ( leftdist < 90 || leftdist > 4 ) { //Se a distancia L < 90cm e > 4cm delay de 200* L 
+  delay(200*leftdist);
  }
  else {
   delay(500);
@@ -224,8 +224,8 @@ void MOTOR_turnright (int X) {    //inverte o motor direito Virando para direita
   digitalWrite(motor_pin2,HIGH);  //Motor L -
   digitalWrite(motor_pin3,HIGH);  //Motor R +
   digitalWrite(motor_pin4,LOW);   //Motor R -
- if ( rightdist < 90 || rightdist > 4 ) {
-  delay(200*leftdist);
+ if ( rightdist < 90 || rightdist > 4 ) { //Se a distancia R < 90cm e > 4cm delay de 200* R 
+  delay(200*rightdist);
  }
  else {
   delay(500);
@@ -236,7 +236,7 @@ void MOTOR_turnright (int X) {    //inverte o motor direito Virando para direita
 
 // Parado
 void MOTOR_halt () {
-  serial('Parando ');
+  // serial('Parando ');
   analogWrite(M1_PWM, 0); //Velocidade motor Direito
   analogWrite(M2_PWM, 0); //Velocidade motor Esquerdo
   digitalWrite(motor_pin1,LOW);
