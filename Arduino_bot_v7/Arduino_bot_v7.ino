@@ -323,39 +323,39 @@ char infrared(){
       //tone(speaker, (12100), 40);
     digitalWrite(LED, HIGH);
     Serial.println(results.value);
-    if (results.value == 3041526525){
+    if (results.value == 3041526525){ // ↑
          MOTOR_forward(speed_val);
          delay (25);
     }
-     else if (results.value == 3041575485){
+     else if (results.value == 3041575485){ // Remote →
          MOTOR_turnright(speed_val);
          delay (25);
      }
-     else if (results.value == 3041542845){
+     else if (results.value == 3041542845){ // Remote ←
          MOTOR_turnleft(speed_val);
          delay (25);
      }
-     else if (results.value == 3041559165){
+     else if (results.value == 3041559165){ // Remote ↓
          MOTOR_backward(speed_val);
          delay (25);
      }
-     else if (results.value == 3041546415){
+     else if (results.value == 3041546415){ // Remote +
      speed_val = speed_val + 5;
          Serial.println(" SPEED " || speed_val);
          test_speed();
          delay (25);
      }
-     else if (results.value == 3041579055){
+     else if (results.value == 3041579055){ // Remote -
      speed_val = speed_val - 5;
          Serial.println(" SPEED " || speed_val);
          test_speed();
          delay (25);
      }
-     else if (results.value == 3041579055){
+     else if (results.value == 3041536215 ){ // Remote BMS
         MOTOR_halt();
         digitalWrite(LED, LOW);
           }
-     else if (results.value == 3041556615){
+     else if (results.value == 3041556615 ){ // Remote CD
         if (onoff = 1) {
            onoff == 0;
         }
@@ -363,7 +363,7 @@ char infrared(){
            onoff == 1;
         }
         }
-     else if (results.value == 3041536215){
+     else if (results.value == 3041540295){ // Remote TUNER
         if (autoroute = 1) {
            autoroute == 0;
         }
