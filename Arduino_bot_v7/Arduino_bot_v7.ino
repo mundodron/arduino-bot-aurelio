@@ -93,8 +93,8 @@ void loop(){
 
  //Velocidade dos motores
 //if (onoff == 1) {
-    analogWrite(M1_PWM, 80); //Velocidade motor Direito
-    analogWrite(M2_PWM, 80); //Velocidade motor Esquerdo
+//    analogWrite(M1_PWM, 80); //Velocidade motor Direito
+//    analogWrite(M2_PWM, 80); //Velocidade motor Esquerdo
 // } else{
 //    analogWrite(M1_PWM, 0); //Velocidade motor Direito
 //    analogWrite(M2_PWM, 0); //Velocidade motor Esquerdo
