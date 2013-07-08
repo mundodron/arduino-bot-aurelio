@@ -91,20 +91,12 @@ void setup ()
 void loop(){
   //infrared();
 
- //Velocidade dos motores
-//if (onoff == 1) {
-//    analogWrite(M1_PWM, 80); //Velocidade motor Direito
-//    analogWrite(M2_PWM, 80); //Velocidade motor Esquerdo
-// } else{
-//    analogWrite(M1_PWM, 0); //Velocidade motor Direito
-//    analogWrite(M2_PWM, 0); //Velocidade motor Esquerdo
-// }
-
  // Potenciometro
  potval = analogRead(potpin);               // Le o valor do potenciometro (valor 0 a 1023)
  potval = map(potval, 0, 1023, 0, 255);     // Coloca o valor recebido do potenciometro na escala de 0 a 180 graus
  speed_val = potval;
  // serial('Velocidade' || potval);
+ 
  //Explorar se nao houver obstaculo em menos de 8cm toca o barco
  obstaculo = ping();
  if (autoroute = 1) {
@@ -147,13 +139,14 @@ void findroute() {
     //serial('Direita ');
     MOTOR_turnright(speed_val);
  }
-}
+} //End rota
 
  //Olha para Esquerda e retorna a distancia
 void lookleft() {
   myservo.write(30);
   delay(700);
   leftdist = ping();
+  delay(25);
   //serial('Olhando para esquerda ');
   //serial('Obstaculo a ' || leftdist || 'cm');
   myservo.write(90);
@@ -166,12 +159,13 @@ void lookright () {
   myservo.write(150);
   delay(700);
   rightdist = ping();
+  delay(25);
   //serial('Olhando para Direita ');
   //serial('Obstaculo a ' || rightdist || 'cm');
   myservo.write(90);
   delay(200);
   return;
-}
+} 
 
 void MOTOR_forward(int X) {
  if (onoff == 1) {
@@ -266,7 +260,7 @@ int ping() {
   digitalWrite(LED, HIGH);
   delay(100);
   return distance;
-}
+} // END Ping
 
   //Speed Control
     void test_speed(){
@@ -282,6 +276,7 @@ int ping() {
             //tone(speaker, (5100), 90);
         }
      } //end test_speed
+ //-------------------------------------------------------
 
 // Comunicacao Serial
 char serial(char X){
@@ -359,12 +354,13 @@ char infrared(){
           }
      else if (results.value == 3041556615 ){ // Remote CD
         if (onoff = 1) {
-           onoff == 0;
-        }
+             onoff == 0;
+          }
         else{
-           onoff == 1;
-        }
-        }
+             onoff == 1;
+          }
+		delay(25);
+     } //onoff
      else if (results.value == 3041540295){ // Remote TUNER
         if (autoroute = 1) {
            autoroute == 0;
@@ -372,9 +368,10 @@ char infrared(){
         else{
            autoroute == 1;
         }
-        }
+       delay(25);
+     } //autoroute
         delay (25);
      irrecv.resume(); // Receive the next value
-	  digitalWrite(LED, LOW);
+	   digitalWrite(LED, LOW);
   }
-}
+} // End infrared
