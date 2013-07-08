@@ -42,7 +42,7 @@ int leftdist;
 int rightdist;
 int obstaculo;
 int state = 1;
-int onoff = 0;
+int onoff = 1;
 int autoroute = 0;
 int speed_val;
 IRrecv irrecv(RECV_PIN);
@@ -174,6 +174,7 @@ void lookright () {
 }
 
 void MOTOR_forward(int X) {
+ if (onoff == 1) {
   analogWrite(M1_PWM, X);    //Velocidade motor Direito
   analogWrite(M2_PWM, X );   //Velocidade motor Esquerdo
   digitalWrite(LED, HIGH);
@@ -184,6 +185,7 @@ void MOTOR_forward(int X) {
   digitalWrite(motor_pin4,HIGH);  //Motor R +
   digitalWrite(LED, LOW);
    return;
+  }
  }
 
 // Rotina de marcha Re, inverte os dois motores
@@ -323,19 +325,19 @@ char infrared(){
       //tone(speaker, (12100), 40);
     digitalWrite(LED, HIGH);
     Serial.println(results.value);
-    if (results.value == 3041526525){ // ↑
+    if (results.value == 3041526525){ // Remote ^
          MOTOR_forward(speed_val);
          delay (25);
     }
-     else if (results.value == 3041575485){ // Remote →
+     else if (results.value == 3041575485){ // Remote >
          MOTOR_turnright(speed_val);
          delay (25);
      }
-     else if (results.value == 3041542845){ // Remote ←
+     else if (results.value == 3041542845){ // Remote <
          MOTOR_turnleft(speed_val);
          delay (25);
      }
-     else if (results.value == 3041559165){ // Remote ↓
+     else if (results.value == 3041559165){ // Remote v
          MOTOR_backward(speed_val);
          delay (25);
      }
@@ -353,7 +355,7 @@ char infrared(){
      }
      else if (results.value == 3041536215 ){ // Remote BMS
         MOTOR_halt();
-        digitalWrite(LED, LOW);
+        //digitalWrite(LED, LOW);
           }
      else if (results.value == 3041556615 ){ // Remote CD
         if (onoff = 1) {
@@ -373,5 +375,6 @@ char infrared(){
         }
         delay (25);
      irrecv.resume(); // Receive the next value
+	  digitalWrite(LED, LOW);
   }
 }
