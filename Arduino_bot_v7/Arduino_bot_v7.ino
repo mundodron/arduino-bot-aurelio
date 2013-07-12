@@ -5,7 +5,6 @@
 #include <Servo.h>
 #include <IRremote.h>
 
-
 // Motor
 int motor_pin1 = 2; //Motor L -
 int motor_pin2 = 3; //Motor L +
@@ -71,7 +70,12 @@ void setup ()
 
   //Infrared
     irrecv.enableIRIn(); // Start the receiver
-
+  
+  //Serial setup
+  Serial.begin(9600);
+   if (Serial.available() > 0) {
+     Serial.writeln('Power On');
+   }
   // Tada
   // tone(speaker, frequency, duration)
   // serial('Iniciando Sistema');
@@ -82,27 +86,28 @@ void setup ()
   //tone(speaker, 100, 300);
 
   digitalWrite(LED, LOW);
-
-  //Serial setup
-  Serial.begin(9600);
-  Serial.write('Power On');
 }
 
 void loop(){
   //infrared();
 
- // Potenciometro
+ // Potenciometro le a posicao do potenciometro constantemente para determinar a velocidade.
  potval = analogRead(potpin);               // Le o valor do potenciometro (valor 0 a 1023)
  potval = map(potval, 0, 1023, 0, 255);     // Coloca o valor recebido do potenciometro na escala de 0 a 180 graus
  speed_val = potval;
- // serial('Velocidade' || potval);
+   
+   if (Serial.available() > 0) {
+     Serial.write('Velocidade');
+	 Serial.writeln(potval);
+   }
+  // serial('Velocidade' || potval);
  
  //Explorar se nao houver obstaculo em menos de 8cm toca o barco
  obstaculo = ping();
  if (autoroute = 1) {
     if(obstaculo > 8 ) {
         // serial('nehum obstaculo em menos de 8cm tocando o barco' || obstaculo || 'cm');
-        if(obstaculo > 20 ) { //triplica a velocidade se nao encontrar nada por perto
+        if(obstaculo > 20 ) { //quintuplica a velocidade se nao encontrar nada por perto
             // serial('nenhum obstaculo em menos de 30cm triplica velocidade' || obstaculo || 'cm');
             //tone(speaker, 5000, 20);
             speed_val = speed_val*5;
@@ -203,8 +208,8 @@ void MOTOR_turnleft (int X) {     //inverte motor esquerdo virando para esquerda
   digitalWrite(motor_pin2,LOW);   //Motor L +
   digitalWrite(motor_pin3,LOW);   //Motor R -
   digitalWrite(motor_pin4,HIGH);  //Motor R +
- if ( leftdist < 90 || leftdist > 4 ) { //Se a distancia L < 90cm e > 4cm delay de 200* L 
-  delay(200*leftdist);
+ if ( rightdist < 90 || rightdist > 4 ) { //Se a distancia R < 90cm e > 4cm delay de 200* R 
+  delay(200*rightdist);
  }
  else {
   delay(500);
@@ -220,8 +225,8 @@ void MOTOR_turnright (int X) {    //inverte o motor direito Virando para direita
   digitalWrite(motor_pin2,HIGH);  //Motor L -
   digitalWrite(motor_pin3,HIGH);  //Motor R +
   digitalWrite(motor_pin4,LOW);   //Motor R -
- if ( rightdist < 90 || rightdist > 4 ) { //Se a distancia R < 90cm e > 4cm delay de 200* R 
-  delay(200*rightdist);
+ if ( leftdist < 90 || leftdist > 4 ) { //Se a distancia L < 90cm e > 4cm delay de 200* L 
+  delay(200*leftdist);
  }
  else {
   delay(500);
@@ -244,7 +249,7 @@ void MOTOR_halt () {
 }
 
 int ping() {
-// HC-SR04 ultrasonic distance sensor (Especifico)
+// HC-SR04 ultrasonic distance sensor
 // A velocidade do som e de 340 m/s ou 29 microssegundos por centimetro.
 // O ping e enviado para frente e reflete no objeto para encontrar a distancia
 // A distancia do objeto fica na metade da distancia percorrida.
@@ -262,7 +267,7 @@ int ping() {
   return distance;
 } // END Ping
 
-  //Speed Control
+  //Speed Control 
     void test_speed(){
         // constrain speed value to between 0-255
         if (speed_val > 250){
