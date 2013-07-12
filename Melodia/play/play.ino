@@ -71,9 +71,10 @@ void setup() {
 // MELODY and TIMING  =======================================
 //  melody[] is an array of notes, accompanied by beats[], 
 //  which sets each note's relative length (higher #, longer note) 
+
 // star wars theme
-//int melody[] = {  f4,  f4, f4,  a4s,   f5,  d5s,  d5,  c5, a5s, f5, d5s,  d5,  c5, a5s, f5, d5s, d5, d5s,   c5};//
-//int beats[]  = {  21,  21, 21,  128,  128,   21,  21,  21, 128, 64,  21,  21,  21, 128, 64,  21, 21,  21, 128 }; 
+int melody[] = {  f4,  f4, f4,  a4s,   f5,  d5s,  d5,  c5, a5s, f5, d5s,  d5,  c5, a5s, f5, d5s, d5, d5s,   c5};//
+int beats[]  = {  21,  21, 21,  128,  128,   21,  21,  21, 128, 64,  21,  21,  21, 128, 64,  21, 21,  21, 128 }; 
 
 // note debug
 //int melody[] = { c4, d4, e4, f4, g4, a4, b4, c5 };
@@ -81,8 +82,8 @@ void setup() {
 
 
 //super mario theme
-int melody[] = {e5, e5, R, e5, R, c5, e5, R, g5, R, R, R, g4, R, R, R, c5, R, R, g4, R, R, e4};
-int beats[] = {16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 , 16, 16, 16, 16, 16, 16, 8, 16, 8, 16, 16};
+//int melody[] = {e5, e5, R, e5, R, c5, e5, R, g5, R, R, R, g4, R, R, R, c5, R, R, g4, R, R, e4};
+//int beats[] = {16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 , 16, 16, 16, 16, 16, 16, 8, 16, 8, 16, 16};
 
 int MAX_COUNT = sizeof(melody) / 2; // Melody length, for looping.
 
@@ -126,6 +127,7 @@ void playTone() {
 
 // LET THE WILD RUMPUS BEGIN =============================
 void loop() {
+
   // Set up a counter to pull from melody[] and beats[]
   for (int i=0; i<MAX_COUNT; i++) {
     toneM = melody[i];
