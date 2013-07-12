@@ -208,8 +208,8 @@ void MOTOR_turnleft (int X) {     //inverte motor esquerdo virando para esquerda
   digitalWrite(motor_pin2,LOW);   //Motor L +
   digitalWrite(motor_pin3,LOW);   //Motor R -
   digitalWrite(motor_pin4,HIGH);  //Motor R +
- if ( rightdist < 90 || rightdist > 4 ) { //Se a distancia R < 90cm e > 4cm delay de 200* R 
-  delay(200*rightdist);
+ if ( rightdist < 30 || rightdist > 4 ) { //Se a distancia R < 90cm e > 4cm delay de 200* R 
+  delay(100*rightdist);
  }
  else {
   delay(500);
@@ -225,8 +225,8 @@ void MOTOR_turnright (int X) {    //inverte o motor direito Virando para direita
   digitalWrite(motor_pin2,HIGH);  //Motor L -
   digitalWrite(motor_pin3,HIGH);  //Motor R +
   digitalWrite(motor_pin4,LOW);   //Motor R -
- if ( leftdist < 90 || leftdist > 4 ) { //Se a distancia L < 90cm e > 4cm delay de 200* L 
-  delay(200*leftdist);
+ if ( leftdist < 30 || leftdist > 4 ) { //Se a distancia L < 90cm e > 4cm delay de 200* L 
+  delay(100*leftdist);
  }
  else {
   delay(500);
