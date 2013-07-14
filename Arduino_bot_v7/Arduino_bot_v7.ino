@@ -74,7 +74,7 @@ void setup ()
   //Serial setup
   Serial.begin(9600);
    if (Serial.available() > 0) {
-     Serial.writeln('Power On');
+     Serial.write('Power On');
    }
   // Tada
   // tone(speaker, frequency, duration)
@@ -98,7 +98,7 @@ void loop(){
    
    if (Serial.available() > 0) {
      Serial.write('Velocidade');
-	 Serial.writeln(potval);
+	 Serial.write(potval);
    }
   // serial('Velocidade' || potval);
  
