@@ -162,8 +162,8 @@ void lookleft() {
   delay(700);
   leftdist = ping();
   delay(100);
-  //serial('Olhando para esquerda ');
-  //serial('Obstaculo a ' || leftdist || 'cm');
+  serial('Olhando para esquerda ');
+  serial('Obstaculo a ' || leftdist || 'cm');
   myservo.write(90);
   delay(200);
   return;
@@ -175,8 +175,8 @@ void lookright () {
   delay(700);
   rightdist = ping();
   delay(100);
-  //serial('Olhando para Direita ');
-  //serial('Obstaculo a ' || rightdist || 'cm');
+  serial('Olhando para Direita ');
+  serial('Obstaculo a ' || rightdist || 'cm');
   myservo.write(90);
   delay(200);
   return;
@@ -228,9 +228,9 @@ void MOTOR_turnleft (int X) {     //inverte motor esquerdo virando para esquerda
   return;
 }
 
-void MOTOR_turnright (int X) {    //inverte o motor direito Virando para direita
-  analogWrite(motor[4], X);         //Velocidade motor Direito
-  analogWrite(motor[5], X);         //Velocidade motor Esquerdo
+void MOTOR_turnright (int X) {  //inverte o motor direito Virando para direita
+  analogWrite(motor[4], X);     //Velocidade motor Direito
+  analogWrite(motor[5], X);     //Velocidade motor Esquerdo
   digitalWrite(motor[0],LOW);   //Motor L +
   digitalWrite(motor[1],HIGH);  //Motor L -
   digitalWrite(motor[2],HIGH);  //Motor R +
