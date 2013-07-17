@@ -8,13 +8,8 @@
 
 #include <IRremote.h>
 
-// L298 motor control variables
-int M1_A = 2;
-int M1_B = 3;
-int M2_A = 4;
-int M2_B = 7;
-int M1_PWM = 5;
-int M2_PWM = 6;
+int motor[] = {2, 3, 4, 7, 5, 6};
+// indice: Motor L -, Motor L +, Motor R -, Motor R +, Velocidade motor Direito, Velocidade motor Esquerdo
 
 int RECV_PIN = 11;
 // LED pin attached to Arduino D13
@@ -28,12 +23,12 @@ void setup()
 {
   Serial.begin(9600);
   irrecv.enableIRIn(); // Start the receiver
-  pinMode(M1_A, OUTPUT);
-  pinMode(M1_PWM, OUTPUT);
-  pinMode(M1_B, OUTPUT);
-  pinMode(M2_A, OUTPUT);
-  pinMode(M2_PWM, OUTPUT);
-  pinMode(M2_B, OUTPUT);
+  pinMode(motor[0], OUTPUT);
+  pinMode(motor[4], OUTPUT);
+  pinMode(motor[1], OUTPUT);
+  pinMode(motor[2], OUTPUT);
+  pinMode(motor[5], OUTPUT);
+  pinMode(motor[3], OUTPUT);
   
   pinMode(LED, OUTPUT);
 }
@@ -43,21 +38,25 @@ void loop() {
     Serial.println(results.value);
     if (results.value == 3041526525){
          digitalWrite(LED, HIGH);
+		 Serial.println('Para Frente');
          MOTOR_forward(speed_val);
          delay (25);
     }
      else if (results.value == 3041575485){
          digitalWrite(LED, LOW);
+		 Serial.println('Virando para Direita');
          MOTOR_turnright(speed_val);
          delay (25);
      }
      else if (results.value == 3041542845){
          digitalWrite(LED, LOW);
+		 Serial.println('Virando para Esquerda');
          MOTOR_turnleft(speed_val);
          delay (25);
      }
      else if (results.value == 3041559165){
          digitalWrite(LED, LOW);
+		 Serial.println('Marcha Re');
          MOTOR_reverse(speed_val);
          delay (25);
      }
@@ -97,46 +96,46 @@ void loop() {
 	 } //end test_speed
 
 void MOTOR_forward(int x){
-	digitalWrite(M1_B, HIGH);
-	digitalWrite(M1_A, LOW);
-	analogWrite(M1_PWM, x);
-	digitalWrite(M2_B, HIGH);
-	digitalWrite(M2_A, LOW);
-	analogWrite(M2_PWM, x);
+	digitalWrite(motor[1], HIGH);
+	digitalWrite(motor[0], LOW);
+	analogWrite(motor[4], x);
+	digitalWrite(motor[3], HIGH);
+	digitalWrite(motor[2], LOW);
+	analogWrite(motor[5], x);
 }
 
 void MOTOR_turnright(int x){
-  	digitalWrite(M1_B, HIGH);
-	digitalWrite(M1_A, LOW);
-	analogWrite(M1_PWM, x);
-	digitalWrite(M2_B, LOW);
-	digitalWrite(M2_A, HIGH);
-	analogWrite(M2_PWM, x);
+  	digitalWrite(motor[1], HIGH);
+	digitalWrite(motor[0], LOW);
+	analogWrite(motor[4], x);
+	digitalWrite(motor[3], LOW);
+	digitalWrite(motor[2], HIGH);
+	analogWrite(motor[5], x);
 }
 
 void MOTOR_turnleft(int x){
-    	digitalWrite(M1_B, LOW);
-	digitalWrite(M1_A, HIGH);
-	analogWrite(M1_PWM, x);
-	digitalWrite(M2_B, HIGH);
-	digitalWrite(M2_A, LOW);
-	analogWrite(M2_PWM, x);
+    	digitalWrite(motor[1], LOW);
+	digitalWrite(motor[0], HIGH);
+	analogWrite(motor[4], x);
+	digitalWrite(motor[3], HIGH);
+	digitalWrite(motor[2], LOW);
+	analogWrite(motor[5], x);
 }
 
 void MOTOR_reverse(int x){
-	digitalWrite(M1_B, LOW);
-	digitalWrite(M1_A, HIGH);
-	analogWrite(M1_PWM, x);
-	digitalWrite(M2_B, LOW);
-	digitalWrite(M2_A, HIGH);
-	analogWrite(M2_PWM, x);
+	digitalWrite(motor[1], LOW);
+	digitalWrite(motor[0], HIGH);
+	analogWrite(motor[4], x);
+	digitalWrite(motor[3], LOW);
+	digitalWrite(motor[2], HIGH);
+	analogWrite(motor[5], x);
 }
 
 void MOTOR_stop(){
-	digitalWrite(M1_B, LOW);
-	digitalWrite(M1_A, LOW);
-	digitalWrite(M1_PWM, LOW);
-	digitalWrite(M2_B, LOW);
-	digitalWrite(M2_A, LOW);
-	digitalWrite(M2_PWM, LOW);
+	digitalWrite(motor[1], LOW);
+	digitalWrite(motor[0], LOW);
+	digitalWrite(motor[4], LOW);
+	digitalWrite(motor[3], LOW);
+	digitalWrite(motor[2], LOW);
+	digitalWrite(motor[5], LOW);
 }
