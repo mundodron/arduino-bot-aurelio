@@ -115,6 +115,7 @@ void loop(){
     if(obstaculo <= 8) {
         serial('Obstaculo encontrado a ' || obstaculo);
         //tone(speaker, (obstaculo*100), 30);
+		speed_val = potval;
         findroute();
     }
  } //auto
@@ -171,7 +172,7 @@ void lookleft() {
 
 //Olha para Direita e retorna a disntancia
 void lookright () {
-  myservo.write(170);
+  myservo.write(160);
   delay(700);
   rightdist = ping();
   delay(100);
@@ -218,11 +219,11 @@ void MOTOR_turnleft (int X) {     //inverte motor esquerdo virando para esquerda
   digitalWrite(motor[1],LOW);   //Motor L +
   digitalWrite(motor[2],LOW);   //Motor R -
   digitalWrite(motor[3],HIGH);  //Motor R +
- if ( rightdist < 30 || rightdist > 4 ) { //Se a distancia R < 90cm e > 4cm delay de 200* R 
-  delay(100*rightdist);
+ if ( rightdist < 40 || rightdist > 4 ) { //Se a distancia R < 90cm e > 4cm delay de 200* R 
+  delay(20*rightdist);
  }
  else {
-  delay(500);
+  delay(400);
  }
   MOTOR_halt();
   return;
@@ -235,11 +236,11 @@ void MOTOR_turnright (int X) {  //inverte o motor direito Virando para direita
   digitalWrite(motor[1],HIGH);  //Motor L -
   digitalWrite(motor[2],HIGH);  //Motor R +
   digitalWrite(motor[3],LOW);   //Motor R -
- if ( leftdist < 30 || leftdist > 4 ) { //Se a distancia L < 90cm e > 4cm delay de 200* L 
-  delay(100*leftdist);
+ if ( leftdist < 40 || leftdist > 4 ) { //Se a distancia L < 90cm e > 4cm delay de 200* L 
+  delay(20*leftdist);
  }
  else {
-  delay(500);
+  delay(400);
  }
   MOTOR_halt();
   return;
