@@ -12,8 +12,8 @@ int starttune[] = {NOTE_C4, NOTE_F4, NOTE_C4, NOTE_F4, NOTE_C4, NOTE_F4, NOTE_C4
 int duration2[] = {100, 200, 100, 200, 100, 400, 100, 100, 100, 100, 200, 100, 500};
 int note[] = {NOTE_C4, NOTE_C4, NOTE_G4, NOTE_C5, NOTE_G4, NOTE_C5};
 int duration[] = {100, 100, 100, 300, 100, 300};
-boolean button[] = {2, 3, 4, 5}; //The four button input pins
-boolean ledpin[] = {8, 9, 10, 11};  // LED pins
+boolean button[] = {5, 6, 7, 8}; //The four button input pins
+boolean ledpin[] = {10, 11, 12, 13};  // LED pins
 int turn = 0;  // turn counter
 int buttonstate = 0;  // button state checker
 int randomArray[100]; //Intentionally long to store up to 100 inputs (doubtful anyone will get this far)
@@ -23,7 +23,7 @@ int inputArray[100];
 void setup() 
 {
   Serial.begin(9600);
-  speakerpin.begin(12); // speaker is on pin 13
+  speakerpin.begin(9); // speaker is on pin 13
 
   for(int x=0; x<4; x++)  // LED pins are outputs
   {
