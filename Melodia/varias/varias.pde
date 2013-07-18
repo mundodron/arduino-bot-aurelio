@@ -218,8 +218,8 @@ void play_rtttl(char *p)
 
 void loop(void)
 {
-  play_rtttl(song[x]);
-  X = X ++;
+  play_rtttl(song[X]);
+  X = X++;
   Serial.println("Done.");
   while(1);
 }
