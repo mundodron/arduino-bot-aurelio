@@ -248,9 +248,9 @@ void fail() { //Function used if the player fails to match the sequence
     digitalWrite(ledpin[2], LOW);
     digitalWrite(ledpin[3], LOW);
     speakerpin.play(NOTE_C3, 300);
-    delay(200);
   }
-    for (int y=0; y<=turn; y++) // pontuação 
+    delay(500);
+    for (int y=0; y<=turn; y++) // pontuaï¿½ï¿½o 
 	{    
 		digitalWrite(ledpin[led], HIGH);
 		speakerpin.play(NOTE_G3, 300);
