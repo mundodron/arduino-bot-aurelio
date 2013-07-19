@@ -95,7 +95,7 @@ void loop()
     digitalWrite(ledpin[1], LOW);
     digitalWrite(ledpin[2], LOW);
     digitalWrite(ledpin[3], LOW);
-    delay(1000);
+    delay(500);
   
     for (int y=turn; y <= turn; y++)
     { //Limited by the turn variable
@@ -250,7 +250,7 @@ void fail() { //Function used if the player fails to match the sequence
     speakerpin.play(NOTE_C3, 300);
   }
     delay(500);
-    for (int y=0; y<=turn; y++) // pontua��o 
+    for (int y=0; y<=turn; y++) // pontuacao 
 	{    
 		digitalWrite(ledpin[led], HIGH);
 		speakerpin.play(NOTE_G3, 300);
