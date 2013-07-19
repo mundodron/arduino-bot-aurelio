@@ -234,7 +234,7 @@ void input() { //Function for allowing user input and checking input against the
 
 void fail() { //Function used if the player fails to match the sequence
  
-  for (int y=0; y<=2; y++)
+  for (int y=0; y<=turn; y++)
   { //Flashes lights for failure
     
     digitalWrite(ledpin[0], HIGH);
