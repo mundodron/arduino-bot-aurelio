@@ -6,6 +6,7 @@ Code trimmed and sound effects added by digimike
 Buttons are to be set on there designated pins without pull down resistors
 and connected to ground rather then +5. 
 */
+
 #include <Tone.h>
 Tone speakerpin;
 int starttune[] = {NOTE_C4, NOTE_F4, NOTE_C4, NOTE_F4, NOTE_C4, NOTE_F4, NOTE_C4, NOTE_F4, NOTE_G4, NOTE_F4, NOTE_E4, NOTE_F4, NOTE_G4};
@@ -15,6 +16,7 @@ int duration[] = {100, 100, 100, 300, 100, 300};
 boolean button[] = {2, 3, 4, 5}; //The four button input pins
 boolean ledpin[] = {8, 9, 10, 11};  // LED pins
 int turn = 0;  // turn counter
+int led = 0; 
 int buttonstate = 0;  // button state checker
 int randomArray[100]; //Intentionally long to store up to 100 inputs (doubtful anyone will get this far)
 int inputArray[100];  
@@ -86,7 +88,7 @@ void loop()
      delay(duration[thisNote]);
      // stop for the next note:
      speakerpin.stop();
-     delay(25);
+     delay(5);
     }
     
     digitalWrite(ledpin[0], LOW);
@@ -150,7 +152,6 @@ void loop()
     input();
   }
 }
- 
  
  
 void input() { //Function for allowing user input and checking input against the generated array
@@ -233,8 +234,7 @@ void input() { //Function for allowing user input and checking input against the
 }
 
 void fail() { //Function used if the player fails to match the sequence
- 
-  for (int y=0; y<=turn; y++)
+  for (int y=0; y<=3; y++)
   { //Flashes lights for failure
     
     digitalWrite(ledpin[0], HIGH);
@@ -250,8 +250,15 @@ void fail() { //Function used if the player fails to match the sequence
     speakerpin.play(NOTE_C3, 300);
     delay(200);
   }
+    for (int y=0; y<=turn; y++) // pontuação 
+	{    
+		digitalWrite(ledpin[led], HIGH);
+		speakerpin.play(NOTE_G3, 300);
+		delay(200);
+		digitalWrite(ledpin[led], LOW);
+		delay(200);
+   		if (led <=3) led++;	else led--;
+	}	
   delay(500);
   turn = -1; //Resets turn value so the game starts over without need for a reset button
 }
-
-
