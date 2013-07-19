@@ -220,6 +220,7 @@ void loop(void)
 {
   play_rtttl(song[X]);
   X = X++;
+  delay(200);
   Serial.println("Done.");
   //while(1);
 }
