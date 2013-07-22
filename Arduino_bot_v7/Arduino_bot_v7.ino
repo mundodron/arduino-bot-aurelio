@@ -69,9 +69,7 @@ void setup ()
   
   //Serial setup
   Serial.begin(9600);
-   if (Serial.available() > 0) {
-     Serial.println('Power On');
-   }
+  Serial.println("Power On");
   // Tada
   // tone(speaker, frequency, duration)
   // serial('Iniciando Sistema');
@@ -91,20 +89,15 @@ void loop(){
  potval = analogRead(potpin);               // Le o valor do potenciometro (valor 0 a 1023)
  potval = map(potval, 0, 1023, 0, 255);     // Coloca o valor recebido do potenciometro na escala de 0 a 180 graus
  speed_val = potval;
-   
-   if (Serial.available() > 0) {
-     Serial.print('Velocidade');
-	 Serial.println(potval);
-   }
   // serial('Velocidade' || potval);
  
  //Explorar se nao houver obstaculo em menos de 8cm toca o barco
  obstaculo = ping();
  if (autoroute = 1) {
     if(obstaculo > 8 ) {
-        serial('nehum obstaculo em menos de 8cm tocando o barco' || obstaculo || 'cm');
+        serial("nehum obstaculo em menos de 8cm tocando o barco" || obstaculo || "cm");
         if(obstaculo > 20 ) { //quintuplica a velocidade se nao encontrar nada por perto
-            serial('nenhum obstaculo em menos de 30cm triplica velocidade' || obstaculo || 'cm');
+            serial("nenhum obstaculo em menos de 30cm triplica velocidade" || obstaculo || "cm");
             //tone(speaker, 5000, 20);
             speed_val = speed_val*5;
             }
@@ -113,7 +106,7 @@ void loop(){
     }
     //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
     if(obstaculo <= 8) {
-        serial('Obstaculo encontrado a ' || obstaculo);
+        serial("Obstaculo encontrado a " || obstaculo);
         //tone(speaker, (obstaculo*100), 30);
 		speed_val = potval;
         findroute();
@@ -121,65 +114,52 @@ void loop(){
  } //auto
 } // End Loop
 
-
 //fazendo a Rota
 void findroute() {
   MOTOR_halt();                // para!
   MOTOR_backward(speed_val);   // Anda para tras
-  lookleft();                  // Olha para esquerda e retorna distancia do objeto
-  lookright();                 // Olha para direita e retorna distancia do objeto
-  //serial('Para onde eu viro? ' || leftdist || ' vs ' || rightdist);
- 
-   if (Serial.available() > 0) {
-     Serial.print('Para onde eu viro? ');
-	 Serial.print(leftdist);
-     Serial.print(' vs ');
-	 Serial.println(rightdist);
-   } //eof serial
-   
+  delay(250);                  // Continua por 250ms
+  MOTOR_halt();                // Para e...
+  look();                      // Olha para esquerda,direita e retorna as distancia do objeto 
+  
+  Serial.print("Para onde eu viro? ");
+  Serial.print(leftdist);
+  Serial.print(" vs ");
+  Serial.println(rightdist);
+  
   if ( leftdist > rightdist )  // decide para que lado virar
- {
+   {
    //tone(speaker, (3000), 30);
-  if (Serial.available() > 0) {
-     Serial.print('vou para esquerda ');
+     Serial.print("vou para esquerda ");
 	 Serial.println(leftdist);
-   } //eof serial
-   MOTOR_turnleft(speed_val);
- }
+     MOTOR_turnleft(speed_val);
+     //Se a distancia R < 40cm e > 4cm delay de 20* R 
+	 if ( rightdist < 40 || rightdist > 4 ) delay(20*rightdist); else delay(400); MOTOR_halt();
+   }
  else
- {
+   {
     //tone(speaker, (1000), 30);
-  if (Serial.available() > 0) {
-     Serial.print('vou para direita ');
+     Serial.print("vou para direita ");
 	 Serial.println(rightdist);
-   } //eof serial
-   MOTOR_turnright(speed_val);
- }
-} //End rota
-
- //Olha para Esquerda e retorna a distancia
-void lookleft() {
-  myservo.write(10);
+     MOTOR_turnright(speed_val);
+	 //Se a distancia L < 40cm e > 4cm delay de 20* L
+	 if ( leftdist < 40 || leftdist > 4 ) delay(20*leftdist); else delay(400); MOTOR_halt();
+   }
+} //end findroute
+  //Olha para Esquerda,Direita e retorna as distancia
+void look() {
+  myservo.write(10);  //Coloca o servo em 10°
   delay(700);
-  leftdist = ping();
+  leftdist = ping();  //Grava a distancia do objeto 
   delay(100);
-  serial('Olhando para esquerda ');
-  serial('Obstaculo a ' || leftdist || 'cm');
-  myservo.write(90);
-  delay(200);
-  return;
-}
-
-//Olha para Direita e retorna a disntancia
-void lookright () {
-  myservo.write(160);
+  myservo.write(90);  //Coloca o servo em 90°
+  delay(500);
+  myservo.write(160); //Coloca o Servo em 160°
   delay(700);
-  rightdist = ping();
+  rightdist = ping(); //Grava a distancia do objeto
   delay(100);
-  serial('Olhando para Direita ');
-  serial('Obstaculo a ' || rightdist || 'cm');
-  myservo.write(90);
-  delay(200);
+  myservo.write(90);  //Coloca o servo em 90°
+  delay(500);
   return;
 } 
 
@@ -200,32 +180,22 @@ void MOTOR_forward(int X) {
 
 // Rotina de marcha Re, inverte os dois motores
 void MOTOR_backward(int X) {
-   analogWrite(motor[4], X);         //Velocidade motor Direito
-   analogWrite(motor[5], X);         //Velocidade motor Esquerdo
-   // serial('Voltando ');
+   analogWrite(motor[4], X);     //Velocidade motor Direito
+   analogWrite(motor[5], X);     //Velocidade motor Esquerdo
    digitalWrite(motor[0],HIGH);  //Motor L -
    digitalWrite(motor[1],LOW);   //Motor L +
    digitalWrite(motor[2],HIGH);  //Motor R -
    digitalWrite(motor[3],LOW);   //Motor R +
-   delay(250);
-   MOTOR_halt();
   return;
 }
 
-void MOTOR_turnleft (int X) {     //inverte motor esquerdo virando para esquerda
-  analogWrite(motor[4], X);         //Velocidade motor Direito
-  analogWrite(motor[5], X);         //Velocidade motor Esquerdo
+void MOTOR_turnleft (int X) {   //inverte motor esquerdo virando para esquerda
+  analogWrite(motor[4], X);     //Velocidade motor Direito
+  analogWrite(motor[5], X);     //Velocidade motor Esquerdo
   digitalWrite(motor[0],HIGH);  //Motor L -
   digitalWrite(motor[1],LOW);   //Motor L +
   digitalWrite(motor[2],LOW);   //Motor R -
   digitalWrite(motor[3],HIGH);  //Motor R +
- if ( rightdist < 40 || rightdist > 4 ) { //Se a distancia R < 90cm e > 4cm delay de 200* R 
-  delay(20*rightdist);
- }
- else {
-  delay(400);
- }
-  MOTOR_halt();
   return;
 }
 
@@ -236,19 +206,11 @@ void MOTOR_turnright (int X) {  //inverte o motor direito Virando para direita
   digitalWrite(motor[1],HIGH);  //Motor L -
   digitalWrite(motor[2],HIGH);  //Motor R +
   digitalWrite(motor[3],LOW);   //Motor R -
- if ( leftdist < 40 || leftdist > 4 ) { //Se a distancia L < 90cm e > 4cm delay de 200* L 
-  delay(20*leftdist);
- }
- else {
-  delay(400);
- }
-  MOTOR_halt();
   return;
 }
 
-// Parado
-void MOTOR_halt () {
-  // serial('Parando ');
+
+void MOTOR_halt () {        //Parado
   analogWrite(motor[4], 0); //Velocidade motor Direito
   analogWrite(motor[5], 0); //Velocidade motor Esquerdo
   digitalWrite(motor[0],LOW);
@@ -280,19 +242,15 @@ int ping() {
 
   //Speed Control 
     void test_speed(){
-        // constrain speed value to between 0-255
-        if (speed_val > 250){
-            speed_val = 255;
+        if (speed_val > 250){ speed_val = 255;
             Serial.println(" MAX ");
             //tone(speaker, (6100), 90);
-        }
-        if (speed_val < 0){
-            speed_val = 0;
+			}
+        if (speed_val < 0){ speed_val = 0;
             Serial.println(" MIN ");
             //tone(speaker, (5100), 90);
-        }
+			}
      } //end test_speed
- //-------------------------------------------------------
 
 // Comunicacao Serial
 char serial(char X){
