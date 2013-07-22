@@ -253,11 +253,11 @@ void fail() { //Function used if the player fails to match the sequence
     for (int y=0; y<=turn; y++) // pontuacao 
 	{    
 		digitalWrite(ledpin[led], HIGH);
-		speakerpin.play(NOTE_G3, 300);
+		speakerpin.play(NOTE_C5, 300);
 		delay(200);
 		digitalWrite(ledpin[led], LOW);
 		delay(200);
-   		if (led <4) led++;	else led--;
+   		if (led <4) led++; else led--;
 	}	
   delay(500);
   turn = -1; //Resets turn value so the game starts over without need for a reset button
