@@ -80,7 +80,7 @@ void setup ()
   //tone(speaker, 100, 300);
 
   digitalWrite(LED, LOW);
-}
+} //EOF Setup
 
 void loop(){
   //infrared();
@@ -127,14 +127,14 @@ void findroute() {
   Serial.print(" vs ");
   Serial.println(rightdist);
   
-  if ( leftdist > rightdist )  // decide para que lado virar
+  if ( leftdist >= rightdist )  // decide para que lado virar
    {
    //tone(speaker, (3000), 30);
      Serial.print("vou para esquerda ");
 	 Serial.println(leftdist);
      MOTOR_turnleft(speed_val);
      //Se a distancia R < 40cm e > 4cm delay de 20* R 
-	 if ( rightdist < 40 || rightdist > 4 ) delay(20*rightdist); else delay(400); MOTOR_halt();
+	 if ( rightdist <= 40 || rightdist > 4 ) delay(20*rightdist); else delay(400); MOTOR_halt();
    }
  else
    {
@@ -143,25 +143,25 @@ void findroute() {
 	 Serial.println(rightdist);
      MOTOR_turnright(speed_val);
 	 //Se a distancia L < 40cm e > 4cm delay de 20* L
-	 if ( leftdist < 40 || leftdist > 4 ) delay(20*leftdist); else delay(400); MOTOR_halt();
+	 if ( leftdist <= 40 || leftdist > 4 ) delay(20*leftdist); else delay(400); MOTOR_halt();
    }
 } //end findroute
   //Olha para Esquerda,Direita e retorna as distancia
 void look() {
   myservo.write(10);  //Coloca o servo em 10°
-  delay(700);
+  delay(400);         //delay
   leftdist = ping();  //Grava a distancia do objeto 
-  delay(100);
+  delay(200);         //delay
   myservo.write(90);  //Coloca o servo em 90°
-  delay(500);
+  delay(500);         //delay
   myservo.write(160); //Coloca o Servo em 160°
-  delay(700);
+  delay(500);         //delay
   rightdist = ping(); //Grava a distancia do objeto
-  delay(100);
+  delay(200);         //delay
   myservo.write(90);  //Coloca o servo em 90°
-  delay(500);
+  delay(400);         //delay
   return;
-} 
+} // EOF Look
 
 void MOTOR_forward(int X) {
  if (onoff == 1) {
@@ -242,11 +242,11 @@ int ping() {
 
   //Speed Control 
     void test_speed(){
-        if (speed_val > 250){ speed_val = 255;
+        if (speed_val >= 255){ speed_val = 255;
             Serial.println(" MAX ");
             //tone(speaker, (6100), 90);
 			}
-        if (speed_val < 0){ speed_val = 0;
+        if (speed_val <= 0){ speed_val = 0;
             Serial.println(" MIN ");
             //tone(speaker, (5100), 90);
 			}

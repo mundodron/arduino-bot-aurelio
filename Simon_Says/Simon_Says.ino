@@ -245,7 +245,7 @@ void fail() { //Function used if the player fails to match the sequence
     digitalWrite(ledpin[3], LOW);
     speakerpin.play(NOTE_C3, 300);
   }
-    Serial.print("você chegou na fase: ");
+    Serial.print("voce chegou na fase: ");
 	Serial.println(turn);
     delay(500);
 
