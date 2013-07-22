@@ -172,7 +172,6 @@ void input() { //Function for allowing user input and checking input against the
         digitalWrite(ledpin[0], LOW);
         inputArray[x] = 1;
         delay(250);
-        Serial.print(" ");
         Serial.print(1);
         if (inputArray[x] != randomArray[x]) { //Checks value input by user and checks it against
           fail();                              //the value in the same spot on the generated array
@@ -187,7 +186,6 @@ void input() { //Function for allowing user input and checking input against the
         digitalWrite(ledpin[1], LOW);
         inputArray[x] = 2;
         delay(250);
-        Serial.print(" ");
         Serial.print(2);
         if (inputArray[x] != randomArray[x]) {
           fail();
@@ -203,7 +201,6 @@ void input() { //Function for allowing user input and checking input against the
         digitalWrite(ledpin[2], LOW);
         inputArray[x] = 3;
         delay(250);
-        Serial.print(" ");
         Serial.print(3);
         if (inputArray[x] != randomArray[x]) {
           fail();
@@ -219,7 +216,6 @@ void input() { //Function for allowing user input and checking input against the
         digitalWrite(ledpin[3], LOW);
         inputArray[x] = 4;
         delay(250);
-        Serial.print(" ");
         Serial.print(4);
         if (inputArray[x] != randomArray[x]) 
         {
@@ -249,7 +245,10 @@ void fail() { //Function used if the player fails to match the sequence
     digitalWrite(ledpin[3], LOW);
     speakerpin.play(NOTE_C3, 300);
   }
+    Serial.print("você chegou na fase: ");
+	Serial.println(turn);
     delay(500);
+
     for (int y=0; y<=turn; y++) // pontuacao 
 	{    
 		digitalWrite(ledpin[led], HIGH);
