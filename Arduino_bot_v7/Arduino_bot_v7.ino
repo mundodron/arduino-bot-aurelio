@@ -2,7 +2,7 @@
     Arduino_bot
     Aurelio Monteiro Avanzi
 */
-#include <IRremote.h>
+//#include <IRremote.h>
 #include <Servo.h>
 
 
@@ -290,7 +290,7 @@ char serial(char X){
     } // end if serial
 } //end serial();
 
-
+/*
 char infrared(){
   if (irrecv.decode(&results)) {
       //tone(speaker, (12100), 40);
@@ -352,3 +352,4 @@ char infrared(){
   }
 } // End infrared
 
+*/
