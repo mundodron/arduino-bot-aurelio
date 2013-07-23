@@ -162,9 +162,8 @@ void look() {
 
 //Para melhorar a acertividade mede a distancia dos objetos cinco vezes e retorna a media.
 int mediaping(){
-  int i;
   int sval = 0;
-  for (i = 0; i < 5; i++){
+  for (int i = 0; i < 5; i++){
     sval = sval + ping();
     delay(10);}
   sval = sval / 5;
