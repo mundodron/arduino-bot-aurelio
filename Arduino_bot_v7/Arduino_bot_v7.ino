@@ -101,7 +101,7 @@ void loop(){
           //tone(speaker, 5000, 20);
           speed_val = speed_val*5;}
     //tone(speaker, (obstaculo*50), 2);
-    MOTOR(speed_val,"forward");
+    MOTOR(speed_val,1); //Motor forward
   //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
   } else {
         Serial.print("Obstaculo encontrado a ");
@@ -114,10 +114,10 @@ void loop(){
 
 //fazendo a Rota
 void findroute() {
-  MOTOR(0,"halt");             // Para!
-  MOTOR(speed_val,"backward"); // Anda para tras
+  MOTOR(0,0);                  // halt Para!
+  MOTOR(speed_val,2);          // backward Anda para tras
   delay(250);                  // Continua por 250ms
-  MOTOR(0,"halt");             // Para e...
+  MOTOR(0,0);                  // halt Para e...
   look();                      // Olha para esquerda,direita e retorna as distancia do objeto 
   
   Serial.print("Para onde eu viro? E ou D");
@@ -125,21 +125,21 @@ void findroute() {
   Serial.print(" vs ");
   Serial.println(rightdist);
   
-  if ( leftdist >= rightdist ) }  // decide para que lado virar
+  if ( leftdist >= rightdist ) {  // decide para que lado virar
      //tone(speaker, (3000), 30);
      Serial.print("vou para esquerda ");
 	 Serial.println(leftdist);
-     MOTOR(speed_val,"turnleft");
+     MOTOR(speed_val,3); // Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
-	 if ( rightdist <= 40 || rightdist > 10 ) delay(20*rightdist); else delay(500); MOTOR_halt();
+	 if ( rightdist <= 40 || rightdist > 10 ) delay(20*rightdist); else delay(500); MOTOR(0,0);
    }
    else {
       //tone(speaker, (1000), 30);
       Serial.print("vou para direita ");
 	  Serial.println(rightdist);
-      MOTOR(speed_val,"turnright");
+      MOTOR(speed_val,4); //Motor turnright
 	  //Se a distancia L < 40cm e > 10cm delay de 20* L
-	  if ( leftdist <= 40 || leftdist > 10 ) delay(20*leftdist); else delay(500); MOTOR_halt();
+	  if ( leftdist <= 40 || leftdist > 10 ) delay(20*leftdist); else delay(500); MOTOR(0,0);
    }
 } //end findroute
  
@@ -172,44 +172,49 @@ int mediaping(){
   }
 
 //Rotina que controla os motores
-void MOTOR(int X, char dir) {
+void MOTOR(int X, int dir) {
     if (X >= 255){X = 255;}       //Trava no 255
 	if (X <= 0){X = 0;}           //Trava no 0
 	analogWrite(motor[4], X);     //Velocidade motor Direito
     analogWrite(motor[5], X );    //Velocidade motor Esquerdo
     digitalWrite(LED, HIGH);
-  if (dir = "forward" ){          // Rotina forward
-    digitalWrite(motor[0],LOW);   //Motor L -
-    digitalWrite(motor[1],HIGH);  //Motor L +
-    digitalWrite(motor[2],LOW);   //Motor R -
-    digitalWrite(motor[3],HIGH);  //Motor R +
-    digitalWrite(LED, LOW);
-  }
-  else if (dir = "backward" ) {   // Rotina de marcha Re, inverte os dois motores
-   digitalWrite(motor[0],HIGH);   //Motor L -
-   digitalWrite(motor[1],LOW);    //Motor L +
-   digitalWrite(motor[2],HIGH);   //Motor R -
-   digitalWrite(motor[3],LOW);    //Motor R +
-  }                             
-  else if (dir = "turnleft" ) {   //inverte motor esquerdo virando para esquerda
-   digitalWrite(motor[0],HIGH);   //Motor L -
-   digitalWrite(motor[1],LOW);    //Motor L +
-   digitalWrite(motor[2],LOW);    //Motor R -
-   digitalWrite(motor[3],HIGH);   //Motor R +
-  }                               
-  else if (dir = "turnright"){    //inverte o motor direito Virando para direita
-   digitalWrite(motor[0],LOW);    //Motor L +
-   digitalWrite(motor[1],HIGH);   //Motor L -
-   digitalWrite(motor[2],HIGH);   //Motor R +
-   digitalWrite(motor[3],LOW);    //Motor R -
-  }                               
-  else {                          //motor Parado
-   digitalWrite(motor[0],LOW);    //Motor L +
-   digitalWrite(motor[1],LOW);    //Motor L -
-   digitalWrite(motor[2],LOW);    //Motor R +
-   digitalWrite(motor[3],LOW);    //Motor R -
-  }
-   digitalWrite(LED, LOW);
+  switch (dir) {
+      case 1:                       // Rotina forward
+      digitalWrite(motor[0],LOW);   //Motor L -
+      digitalWrite(motor[1],HIGH);  //Motor L +
+      digitalWrite(motor[2],LOW);   //Motor R -
+      digitalWrite(motor[3],HIGH);  //Motor R +
+      break;
+	  
+      case 2:                       // Rotina de marcha Re, inverte os dois motores
+      digitalWrite(motor[0],HIGH);  //Motor L -
+      digitalWrite(motor[1],LOW);   //Motor L +
+      digitalWrite(motor[2],HIGH);  //Motor R -
+      digitalWrite(motor[3],LOW);   //Motor R +
+      break;
+  
+      case 3:                       //inverte motor esquerdo virando para esquerda
+      digitalWrite(motor[0],HIGH);  //Motor L -
+      digitalWrite(motor[1],LOW);   //Motor L +
+      digitalWrite(motor[2],LOW);   //Motor R -
+      digitalWrite(motor[3],HIGH);  //Motor R +
+      break;
+      
+	  case 4:                       //inverte o motor direito Virando para direita
+      digitalWrite(motor[0],LOW);   //Motor L +
+      digitalWrite(motor[1],HIGH);  //Motor L -
+      digitalWrite(motor[2],HIGH);  //Motor R +
+      digitalWrite(motor[3],LOW);   //Motor R -
+      break;
+      
+	  case 0:                       //motor Parado
+      digitalWrite(motor[0],LOW);   //Motor L +
+      digitalWrite(motor[1],LOW);   //Motor L -
+      digitalWrite(motor[2],LOW);   //Motor R +
+      digitalWrite(motor[3],LOW);   //Motor R -
+	  break;
+  } //EOF switch
+  digitalWrite(LED, LOW);
 }// EOF motor
 
 int ping() {
