@@ -93,7 +93,7 @@ void loop(){
    if(obstaculo > 8 ) {
         Serial.print("nehum obstaculo em menos de 9cm tocando o barco ");
         Serial.print(obstaculo);
-        Serial.println(" cm");
+        Serial.println("cm");
         if(obstaculo > 20 ) { //quintuplica a velocidade se nao encontrar nada por perto
           Serial.print("Nenhum obstaculo em menos de 20cm triplica velocidade ");
           Serial.print(obstaculo);
@@ -101,7 +101,7 @@ void loop(){
           //tone(speaker, 5000, 20);
           speed_val = speed_val*5;}
     //tone(speaker, (obstaculo*50), 2);
-    MOTOR_forward(speed_val);
+    MOTOR(speed_val,"forward");
   //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
   } else {
         Serial.print("Obstaculo encontrado a ");
@@ -114,10 +114,10 @@ void loop(){
 
 //fazendo a Rota
 void findroute() {
-  MOTOR_halt();                // Para!
-  MOTOR_backward(speed_val);   // Anda para tras
+  MOTOR(0,"halt");             // Para!
+  MOTOR(speed_val,"backward"); // Anda para tras
   delay(250);                  // Continua por 250ms
-  MOTOR_halt();                // Para e...
+  MOTOR(0,"halt");             // Para e...
   look();                      // Olha para esquerda,direita e retorna as distancia do objeto 
   
   Serial.print("Para onde eu viro? E ou D");
@@ -129,7 +129,7 @@ void findroute() {
      //tone(speaker, (3000), 30);
      Serial.print("vou para esquerda ");
 	 Serial.println(leftdist);
-     MOTOR_turnleft(speed_val);
+     MOTOR(speed_val,"turnleft");
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
 	 if ( rightdist <= 40 || rightdist > 10 ) delay(20*rightdist); else delay(500); MOTOR_halt();
    }
@@ -137,7 +137,7 @@ void findroute() {
       //tone(speaker, (1000), 30);
       Serial.print("vou para direita ");
 	  Serial.println(rightdist);
-      MOTOR_turnright(speed_val);
+      MOTOR(speed_val,"turnright");
 	  //Se a distancia L < 40cm e > 10cm delay de 20* L
 	  if ( leftdist <= 40 || leftdist > 10 ) delay(20*leftdist); else delay(500); MOTOR_halt();
    }
@@ -171,61 +171,46 @@ int mediaping(){
   return sval;
   }
 
-void MOTOR_forward(int X) {
- if (onoff == 1) {
-    analogWrite(motor[4], X);    //Velocidade motor Direito
-    analogWrite(motor[5], X );   //Velocidade motor Esquerdo
+//Rotina que controla os motores
+void MOTOR(int X, char dir) {
+    if (X >= 255){X = 255;}       //Trava no 255
+	if (X <= 0){X = 0;}           //Trava no 0
+	analogWrite(motor[4], X);     //Velocidade motor Direito
+    analogWrite(motor[5], X );    //Velocidade motor Esquerdo
     digitalWrite(LED, HIGH);
+  if (dir = "forward" ){          // Rotina forward
     digitalWrite(motor[0],LOW);   //Motor L -
     digitalWrite(motor[1],HIGH);  //Motor L +
     digitalWrite(motor[2],LOW);   //Motor R -
     digitalWrite(motor[3],HIGH);  //Motor R +
     digitalWrite(LED, LOW);
-   return;
   }
- }
-
-// Rotina de marcha Re, inverte os dois motores
-void MOTOR_backward(int X) {
-   analogWrite(motor[4], X);     //Velocidade motor Direito
-   analogWrite(motor[5], X);     //Velocidade motor Esquerdo
-   digitalWrite(motor[0],HIGH);  //Motor L -
-   digitalWrite(motor[1],LOW);   //Motor L +
-   digitalWrite(motor[2],HIGH);  //Motor R -
-   digitalWrite(motor[3],LOW);   //Motor R +
-  return;
-}
-
-void MOTOR_turnleft (int X) {   //inverte motor esquerdo virando para esquerda
-   analogWrite(motor[4], X);     //Velocidade motor Direito
-   analogWrite(motor[5], X);     //Velocidade motor Esquerdo
-   digitalWrite(motor[0],HIGH);  //Motor L -
-   digitalWrite(motor[1],LOW);   //Motor L +
-   digitalWrite(motor[2],LOW);   //Motor R -
-   digitalWrite(motor[3],HIGH);  //Motor R +
-  return;
-}
-
-void MOTOR_turnright (int X) {  //inverte o motor direito Virando para direita
-   analogWrite(motor[4], X);     //Velocidade motor Direito
-   analogWrite(motor[5], X);     //Velocidade motor Esquerdo
-   digitalWrite(motor[0],LOW);   //Motor L +
-   digitalWrite(motor[1],HIGH);  //Motor L -
-   digitalWrite(motor[2],HIGH);  //Motor R +
-   digitalWrite(motor[3],LOW);   //Motor R -
-  return;
-}
-
-void MOTOR_halt () {        //Parado
-   analogWrite(motor[4], 0); //Velocidade motor Direito
-   analogWrite(motor[5], 0); //Velocidade motor Esquerdo
-   digitalWrite(motor[0],LOW);
-   digitalWrite(motor[1],LOW);
-   digitalWrite(motor[2],LOW);
-   digitalWrite(motor[3],LOW);
-   delay(250);
-  return;
-}
+  else if (dir = "backward" ) {   // Rotina de marcha Re, inverte os dois motores
+   digitalWrite(motor[0],HIGH);   //Motor L -
+   digitalWrite(motor[1],LOW);    //Motor L +
+   digitalWrite(motor[2],HIGH);   //Motor R -
+   digitalWrite(motor[3],LOW);    //Motor R +
+  }                             
+  else if (dir = "turnleft" ) {   //inverte motor esquerdo virando para esquerda
+   digitalWrite(motor[0],HIGH);   //Motor L -
+   digitalWrite(motor[1],LOW);    //Motor L +
+   digitalWrite(motor[2],LOW);    //Motor R -
+   digitalWrite(motor[3],HIGH);   //Motor R +
+  }                               
+  else if (dir = "turnright"){    //inverte o motor direito Virando para direita
+   digitalWrite(motor[0],LOW);    //Motor L +
+   digitalWrite(motor[1],HIGH);   //Motor L -
+   digitalWrite(motor[2],HIGH);   //Motor R +
+   digitalWrite(motor[3],LOW);    //Motor R -
+  }                               
+  else {                          //motor Parado
+   digitalWrite(motor[0],LOW);    //Motor L +
+   digitalWrite(motor[1],LOW);    //Motor L -
+   digitalWrite(motor[2],LOW);    //Motor R +
+   digitalWrite(motor[3],LOW);    //Motor R -
+  }
+   digitalWrite(LED, LOW);
+}// EOF motor
 
 int ping() {
 // HC-SR04 ultrasonic distance sensor
@@ -246,18 +231,8 @@ int ping() {
   return distance;
 } // END Ping
 
-  //Speed Control 
-    void test_speed(){
-        if (speed_val >= 255){ speed_val = 255;
-            Serial.println(" MAX ");
-            //tone(speaker, (6100), 90);
-			}
-        if (speed_val <= 0){ speed_val = 0;
-            Serial.println(" MIN ");
-            //tone(speaker, (5100), 90);
-			}
-     } //end test_speed
-/*
+	 
+	 /*
 // Controle infravermelho
 char infrared(){
   if (irrecv.decode(&results)) {
