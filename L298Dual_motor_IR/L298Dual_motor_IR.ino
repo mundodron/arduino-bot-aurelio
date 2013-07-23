@@ -36,38 +36,38 @@ void setup()
 void loop() {
   if (irrecv.decode(&results)) {
     Serial.println(results.value);
-    if (results.value == 3041526525){
+    if (results.value == 3041526525){ // Remote ^
          digitalWrite(LED, HIGH);
-		 Serial.println('Para Frente');
+		 Serial.println("Para Frente");
          MOTOR_forward(speed_val);
          delay (25);
     }
-     else if (results.value == 3041575485){
+     else if (results.value == 3041575485){ // Remote >
          digitalWrite(LED, LOW);
-		 Serial.println('Virando para Direita');
+		 Serial.println("Virando para Direita");
          MOTOR_turnright(speed_val);
          delay (25);
      }
-     else if (results.value == 3041542845){
+     else if (results.value == 3041542845){ // Remote <
          digitalWrite(LED, LOW);
-		 Serial.println('Virando para Esquerda');
+		 Serial.println("Virando para Esquerda");
          MOTOR_turnleft(speed_val);
          delay (25);
      }
-     else if (results.value == 3041559165){
+     else if (results.value == 3041559165){ // Remote v
          digitalWrite(LED, LOW);
-		 Serial.println('Marcha Re');
+		 Serial.println("Marcha Re");
          MOTOR_reverse(speed_val);
          delay (25);
      }
-     else if (results.value == 3041546415){
+     else if (results.value == 3041546415){ // Remote +
          digitalWrite(LED, LOW);
 	 speed_val = speed_val + 5;
          Serial.println(speed_val);
 	 test_speed();
          delay (25);
      }
-     else if (results.value == 3041579055){
+     else if (results.value == 3041579055){ // Remote -
          digitalWrite(LED, LOW);
 	 speed_val = speed_val - 5;
          Serial.println(speed_val);
@@ -77,6 +77,7 @@ void loop() {
      else {
         MOTOR_stop();
         digitalWrite(LED, LOW);
+		results.value == 0
           }
     irrecv.resume(); // Receive the next value
   }

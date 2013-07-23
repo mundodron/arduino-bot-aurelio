@@ -2,9 +2,9 @@
     Arduino_bot
     Aurelio Monteiro Avanzi
 */
+
 //#include <IRremote.h>
 #include <Servo.h>
-
 
 // Controle do Motor
 int motor[] = {2, 3, 4, 7, 5, 6};
@@ -17,6 +17,8 @@ long duration, distance;
 
 // Infrared to Arduino D11
 //int RECV_PIN = 11;
+//IRrecv irrecv(RECV_PIN);
+//decode_results results;
 
 //Potenciometro
 int potpin = 0;
@@ -33,16 +35,11 @@ int speaker = 12;
 int LED = 13;
 
 // Variaveis
-int incomingByte;
-int leftdist;
-int rightdist;
-int obstaculo;
+int speed_val, incomingByte, leftdist, rightdist, obstaculo;
+int obstaculo1;
 int state = 1;
 int onoff = 1;
 int autoroute = 0;
-int speed_val;
-//IRrecv irrecv(RECV_PIN);
-//decode_results results;
 
 void setup ()
 {
@@ -66,14 +63,13 @@ void setup ()
   //pinMode(botao, INPUT);
 
   //Infrared
-  //  irrecv.enableIRIn(); // Start the receiver
+  //irrecv.enableIRIn(); // Start the receiver
   
   //Serial setup
   Serial.begin(9600);
-  Serial.println("Power On");
+  Serial.println("Iniciando Sistema");
   // Tada
   // tone(speaker, frequency, duration)
-  // serial('Iniciando Sistema');
   //tone(speaker, 200, 300);
   delay(100);
   //tone(speaker, 300, 400);
@@ -90,34 +86,36 @@ void loop(){
  potval = analogRead(potpin);               // Le o valor do potenciometro (valor 0 a 1023)
  potval = map(potval, 0, 1023, 0, 255);     // Coloca o valor recebido do potenciometro na escala de 0 a 180 graus
  speed_val = potval;
-  // serial('Velocidade' || potval);
  
  //Explorar se nao houver obstaculo em menos de 8cm toca o barco
+  if (autoroute = 1) {
  obstaculo = ping();
- if (autoroute = 1) {
-    if(obstaculo > 8 ) {
-        serial("nehum obstaculo em menos de 8cm tocando o barco" || obstaculo || "cm");
+  delay(100);
+   if(obstaculo > 8 ) {
+        Serial.print("nehum obstaculo em menos de 9cm tocando o barco ");
+        Serial.print(obstaculo);
+        Serial.println(" cm");
         if(obstaculo > 20 ) { //quintuplica a velocidade se nao encontrar nada por perto
-            serial("nenhum obstaculo em menos de 30cm triplica velocidade" || obstaculo || "cm");
-            //tone(speaker, 5000, 20);
-            speed_val = speed_val*5;
-            }
+          Serial.print("Nenhum obstaculo em menos de 20cm triplica velocidade ");
+          Serial.print(obstaculo);
+          Serial.println(" cm");
+          //tone(speaker, 5000, 20);
+          speed_val = speed_val*5;}
     //tone(speaker, (obstaculo*50), 2);
     MOTOR_forward(speed_val);
-    }
-    //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
-    if(obstaculo <= 8) {
-        serial("Obstaculo encontrado a " || obstaculo);
+  //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
+  } else {
+        Serial.print("Obstaculo encontrado a ");
+        Serial.print(obstaculo);
         //tone(speaker, (obstaculo*100), 30);
 		speed_val = potval;
-        findroute();
-    }
- } //auto
+        findroute();}
+    } //auto
 } // End Loop
 
 //fazendo a Rota
 void findroute() {
-  MOTOR_halt();                // para!
+  MOTOR_halt();                // Para!
   MOTOR_backward(speed_val);   // Anda para tras
   delay(250);                  // Continua por 250ms
   MOTOR_halt();                // Para e...
@@ -147,34 +145,45 @@ void findroute() {
 	 if ( leftdist <= 40 || leftdist > 4 ) delay(100*leftdist); else delay(400); MOTOR_halt();
    }
 } //end findroute
-  //Olha para Esquerda,Direita e retorna as distancia
+ 
+//Olha para Esquerda,Direita e retorna as distancia
 void look() {
-  myservo.write(10);  //Coloca o servo em 10�
-  delay(400);         //delay
-  leftdist = ping();  //Grava a distancia do objeto 
-  delay(200);         //delay
-  myservo.write(90);  //Coloca o servo em 90�
-  delay(350);         //delay
-  myservo.write(160); //Coloca o Servo em 160�
-  delay(500);         //delay
-  rightdist = ping(); //Grava a distancia do objeto
-  delay(200);         //delay
-  myservo.write(90);  //Coloca o servo em 90�
-  delay(350);         //delay
+  myservo.write(10);       //Coloca o servo em 10 graus
+  delay(400);              //delay
+  leftdist = mediaping();  //Grava a distancia do objeto 
+  delay(200);              //delay
+  myservo.write(90);       //Coloca o servo em 90 graus
+  delay(350);              //delay
+  myservo.write(160);      //Coloca o Servo em 160 graus
+  delay(500);              //delay
+  rightdist = mediaping(); //Grava a distancia do objeto
+  delay(200);              //delay
+  myservo.write(90);       //Coloca o servo em 90 graus
+  delay(350);              //delay
   return;
 } // EOF Look
 
+//Le a distancia dos objetos cinco vezes e retorna a media.
+int mediaping(){
+  int i;
+  int sval = 0;
+  for (i = 0; i < 5; i++){
+    sval = sval + ping();
+	delay(10);}
+  sval = sval / 5;
+  return sval;
+  }
+
 void MOTOR_forward(int X) {
  if (onoff == 1) {
-  analogWrite(motor[4], X);    //Velocidade motor Direito
-  analogWrite(motor[5], X );   //Velocidade motor Esquerdo
-  digitalWrite(LED, HIGH);
-  //serial('Vou para frente ' || distance || 'cm');
-  digitalWrite(motor[0],LOW);   //Motor L -
-  digitalWrite(motor[1],HIGH);  //Motor L +
-  digitalWrite(motor[2],LOW);   //Motor R -
-  digitalWrite(motor[3],HIGH);  //Motor R +
-  digitalWrite(LED, LOW);
+    analogWrite(motor[4], X);    //Velocidade motor Direito
+    analogWrite(motor[5], X );   //Velocidade motor Esquerdo
+    digitalWrite(LED, HIGH);
+    digitalWrite(motor[0],LOW);   //Motor L -
+    digitalWrite(motor[1],HIGH);  //Motor L +
+    digitalWrite(motor[2],LOW);   //Motor R -
+    digitalWrite(motor[3],HIGH);  //Motor R +
+    digitalWrite(LED, LOW);
    return;
   }
  }
@@ -191,34 +200,34 @@ void MOTOR_backward(int X) {
 }
 
 void MOTOR_turnleft (int X) {   //inverte motor esquerdo virando para esquerda
-  analogWrite(motor[4], X);     //Velocidade motor Direito
-  analogWrite(motor[5], X);     //Velocidade motor Esquerdo
-  digitalWrite(motor[0],HIGH);  //Motor L -
-  digitalWrite(motor[1],LOW);   //Motor L +
-  digitalWrite(motor[2],LOW);   //Motor R -
-  digitalWrite(motor[3],HIGH);  //Motor R +
+   analogWrite(motor[4], X);     //Velocidade motor Direito
+   analogWrite(motor[5], X);     //Velocidade motor Esquerdo
+   digitalWrite(motor[0],HIGH);  //Motor L -
+   digitalWrite(motor[1],LOW);   //Motor L +
+   digitalWrite(motor[2],LOW);   //Motor R -
+   digitalWrite(motor[3],HIGH);  //Motor R +
   return;
 }
 
 void MOTOR_turnright (int X) {  //inverte o motor direito Virando para direita
-  analogWrite(motor[4], X);     //Velocidade motor Direito
-  analogWrite(motor[5], X);     //Velocidade motor Esquerdo
-  digitalWrite(motor[0],LOW);   //Motor L +
-  digitalWrite(motor[1],HIGH);  //Motor L -
-  digitalWrite(motor[2],HIGH);  //Motor R +
-  digitalWrite(motor[3],LOW);   //Motor R -
+   analogWrite(motor[4], X);     //Velocidade motor Direito
+   analogWrite(motor[5], X);     //Velocidade motor Esquerdo
+   digitalWrite(motor[0],LOW);   //Motor L +
+   digitalWrite(motor[1],HIGH);  //Motor L -
+   digitalWrite(motor[2],HIGH);  //Motor R +
+   digitalWrite(motor[3],LOW);   //Motor R -
   return;
 }
 
 
 void MOTOR_halt () {        //Parado
-  analogWrite(motor[4], 0); //Velocidade motor Direito
-  analogWrite(motor[5], 0); //Velocidade motor Esquerdo
-  digitalWrite(motor[0],LOW);
-  digitalWrite(motor[1],LOW);
-  digitalWrite(motor[2],LOW);
-  digitalWrite(motor[3],LOW);
-  delay(250);
+   analogWrite(motor[4], 0); //Velocidade motor Direito
+   analogWrite(motor[5], 0); //Velocidade motor Esquerdo
+   digitalWrite(motor[0],LOW);
+   digitalWrite(motor[1],LOW);
+   digitalWrite(motor[2],LOW);
+   digitalWrite(motor[3],LOW);
+   delay(250);
   return;
 }
 
@@ -236,8 +245,8 @@ int ping() {
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance = (duration/2) / 29.1;
-  digitalWrite(LED, HIGH);
   delay(100);
+  digitalWrite(LED, HIGH);
   return distance;
 } // END Ping
 
@@ -252,45 +261,8 @@ int ping() {
             //tone(speaker, (5100), 90);
 			}
      } //end test_speed
-
-// Comunicacao Serial
-char serial(char X){
-  //Porta serial
-  if (Serial.available() > 0) {
-  incomingByte = Serial.read(); 
-  digitalWrite(LED, HIGH);
-  //Serial.write(X);
-  Serial.println(X);
-  delay(10);
- // check incoming byte for direction
-        // if byte is equal to "105" or "i", go forward
-        if (incomingByte == 105){
-            MOTOR_forward;
-            delay(25);
-        }
-        // if byte is equal to "106" or "j", go turnleft
-        else if (incomingByte == 106){
-            MOTOR_turnleft;
-            delay(25);
-        }
-        // if byte is equal to "108" or "l", go turnright
-        else if (incomingByte == 108){
-            MOTOR_turnright;
-            delay(25);
-        }
-        // if byte is equal to "107" or "k", go backward
-        else if (incomingByte == 107){
-            MOTOR_backward;
-            delay(25);
-        }
-//        else {
-//            MOTOR_stop();
-//            digitalWrite(LED, LOW);
-//        }
-    } // end if serial
-} //end serial();
-
 /*
+// Controle infravermelho
 char infrared(){
   if (irrecv.decode(&results)) {
       //tone(speaker, (12100), 40);
@@ -314,13 +286,15 @@ char infrared(){
      }
      else if (results.value == 3041546415){ // Remote +
      speed_val = speed_val + 5;
-         Serial.println(" SPEED " || speed_val);
+         Serial.print(" SPEED ");
+		 Serial.println(speed_val);
          test_speed();
          delay (25);
      }
      else if (results.value == 3041579055){ // Remote -
      speed_val = speed_val - 5;
-         Serial.println(" SPEED " || speed_val);
+         Serial.print(" SPEED ");
+		 Serial.println(speed_val);
          test_speed();
          delay (25);
      }
@@ -351,5 +325,4 @@ char infrared(){
 	   digitalWrite(LED, LOW);
   }
 } // End infrared
-
 */
