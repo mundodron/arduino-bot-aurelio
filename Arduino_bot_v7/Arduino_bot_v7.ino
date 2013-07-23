@@ -107,7 +107,7 @@ void loop(){
         Serial.print("Obstaculo encontrado a ");
         Serial.print(obstaculo);
         //tone(speaker, (obstaculo*100), 30);
-		speed_val = potval;
+        speed_val = potval;
         findroute();}
     } //auto
 } // End Loop
@@ -128,18 +128,18 @@ void findroute() {
   if ( leftdist >= rightdist ) {  // decide para que lado virar
      //tone(speaker, (3000), 30);
      Serial.print("vou para esquerda ");
-	 Serial.println(leftdist);
+     Serial.println(leftdist);
      MOTOR(speed_val,3); // Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
-	 if ( rightdist <= 40 || rightdist > 10 ) delay(20*rightdist); else delay(500); MOTOR(0,0);
+     if ( rightdist <= 40 || rightdist > 10 ) delay(20*rightdist); else delay(500); MOTOR(0,0);
    }
    else {
       //tone(speaker, (1000), 30);
       Serial.print("vou para direita ");
-	  Serial.println(rightdist);
+      Serial.println(rightdist);
       MOTOR(speed_val,4); //Motor turnright
-	  //Se a distancia L < 40cm e > 10cm delay de 20* L
-	  if ( leftdist <= 40 || leftdist > 10 ) delay(20*leftdist); else delay(500); MOTOR(0,0);
+      //Se a distancia L < 40cm e > 10cm delay de 20* L
+      if ( leftdist <= 40 || leftdist > 10 ) delay(20*leftdist); else delay(500); MOTOR(0,0);
    }
 } //end findroute
  
@@ -166,7 +166,7 @@ int mediaping(){
   int sval = 0;
   for (i = 0; i < 5; i++){
     sval = sval + ping();
-	delay(10);}
+    delay(10);}
   sval = sval / 5;
   return sval;
   }
@@ -174,8 +174,8 @@ int mediaping(){
 //Rotina que controla os motores
 void MOTOR(int X, int dir) {
     if (X >= 255){X = 255;}       //Trava no 255
-	if (X <= 0){X = 0;}           //Trava no 0
-	analogWrite(motor[4], X);     //Velocidade motor Direito
+    if (X <= 0){X = 0;}           //Trava no 0
+    analogWrite(motor[4], X);     //Velocidade motor Direito
     analogWrite(motor[5], X );    //Velocidade motor Esquerdo
     digitalWrite(LED, HIGH);
   switch (dir) {
@@ -185,7 +185,7 @@ void MOTOR(int X, int dir) {
       digitalWrite(motor[2],LOW);   //Motor R -
       digitalWrite(motor[3],HIGH);  //Motor R +
       break;
-	  
+
       case 2:                       // Rotina de marcha Re, inverte os dois motores
       digitalWrite(motor[0],HIGH);  //Motor L -
       digitalWrite(motor[1],LOW);   //Motor L +
@@ -199,20 +199,20 @@ void MOTOR(int X, int dir) {
       digitalWrite(motor[2],LOW);   //Motor R -
       digitalWrite(motor[3],HIGH);  //Motor R +
       break;
-      
-	  case 4:                       //inverte o motor direito Virando para direita
+
+      case 4:                       //inverte o motor direito Virando para direita
       digitalWrite(motor[0],LOW);   //Motor L +
       digitalWrite(motor[1],HIGH);  //Motor L -
       digitalWrite(motor[2],HIGH);  //Motor R +
       digitalWrite(motor[3],LOW);   //Motor R -
       break;
-      
-	  case 0:                       //motor Parado
+
+      case 0:                       //motor Parado
       digitalWrite(motor[0],LOW);   //Motor L +
       digitalWrite(motor[1],LOW);   //Motor L -
       digitalWrite(motor[2],LOW);   //Motor R +
       digitalWrite(motor[3],LOW);   //Motor R -
-	  break;
+      break;
   } //EOF switch
   digitalWrite(LED, LOW);
 }// EOF motor
@@ -236,8 +236,8 @@ int ping() {
   return distance;
 } // END Ping
 
-	 
-	 /*
+     
+     /*
 // Controle infravermelho
 char infrared(){
   if (irrecv.decode(&results)) {
@@ -263,14 +263,14 @@ char infrared(){
      else if (results.value == 3041546415){ // Remote +
      speed_val = speed_val + 5;
          Serial.print(" SPEED ");
-		 Serial.println(speed_val);
+         Serial.println(speed_val);
          test_speed();
          delay (25);
      }
      else if (results.value == 3041579055){ // Remote -
      speed_val = speed_val - 5;
          Serial.print(" SPEED ");
-		 Serial.println(speed_val);
+         Serial.println(speed_val);
          test_speed();
          delay (25);
      }
@@ -285,7 +285,7 @@ char infrared(){
         else{
              onoff == 1;
           }
-		delay(25);
+        delay(25);
      } //onoff
      else if (results.value == 3041540295){ // Remote TUNER
         if (autoroute = 1) {
@@ -298,7 +298,7 @@ char infrared(){
      } //autoroute
         delay (25);
      irrecv.resume(); // Receive the next value
-	   digitalWrite(LED, LOW);
+       digitalWrite(LED, LOW);
   }
 } // End infrared
 */
