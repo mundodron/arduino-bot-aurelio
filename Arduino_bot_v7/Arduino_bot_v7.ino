@@ -2,8 +2,9 @@
     Arduino_bot
     Aurelio Monteiro Avanzi
 */
+#include <IRremote.h>
 #include <Servo.h>
-//#include <IRremote.h>
+
 
 // Controle do Motor
 int motor[] = {2, 3, 4, 7, 5, 6};
@@ -289,7 +290,7 @@ char serial(char X){
     } // end if serial
 } //end serial();
 
-/*
+
 char infrared(){
   if (irrecv.decode(&results)) {
       //tone(speaker, (12100), 40);
@@ -351,4 +352,3 @@ char infrared(){
   }
 } // End infrared
 
-*/
