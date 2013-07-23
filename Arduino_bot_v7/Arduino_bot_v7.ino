@@ -122,7 +122,7 @@ void findroute() {
   MOTOR_halt();                // Para e...
   look();                      // Olha para esquerda,direita e retorna as distancia do objeto 
   
-  Serial.print("Para onde eu viro? ");
+  Serial.print("Para onde eu viro? E ou D");
   Serial.print(leftdist);
   Serial.print(" vs ");
   Serial.println(rightdist);
@@ -134,7 +134,7 @@ void findroute() {
 	 Serial.println(leftdist);
      MOTOR_turnleft(speed_val);
      //Se a distancia R < 40cm e > 4cm delay de 20* R 
-	 if ( rightdist <= 40 || rightdist > 4 ) delay(20*rightdist); else delay(400); MOTOR_halt();
+	 if ( rightdist <= 40 || rightdist > 4 ) delay(100*rightdist); else delay(400); MOTOR_halt();
    }
  else
    {
@@ -143,23 +143,23 @@ void findroute() {
 	 Serial.println(rightdist);
      MOTOR_turnright(speed_val);
 	 //Se a distancia L < 40cm e > 4cm delay de 20* L
-	 if ( leftdist <= 40 || leftdist > 4 ) delay(20*leftdist); else delay(400); MOTOR_halt();
+	 if ( leftdist <= 40 || leftdist > 4 ) delay(100*leftdist); else delay(400); MOTOR_halt();
    }
 } //end findroute
   //Olha para Esquerda,Direita e retorna as distancia
 void look() {
-  myservo.write(10);  //Coloca o servo em 10°
+  myservo.write(10);  //Coloca o servo em 10ï¿½
   delay(400);         //delay
   leftdist = ping();  //Grava a distancia do objeto 
   delay(200);         //delay
-  myservo.write(90);  //Coloca o servo em 90°
-  delay(500);         //delay
-  myservo.write(160); //Coloca o Servo em 160°
+  myservo.write(90);  //Coloca o servo em 90ï¿½
+  delay(350);         //delay
+  myservo.write(160); //Coloca o Servo em 160ï¿½
   delay(500);         //delay
   rightdist = ping(); //Grava a distancia do objeto
   delay(200);         //delay
-  myservo.write(90);  //Coloca o servo em 90°
-  delay(400);         //delay
+  myservo.write(90);  //Coloca o servo em 90ï¿½
+  delay(350);         //delay
   return;
 } // EOF Look
 
