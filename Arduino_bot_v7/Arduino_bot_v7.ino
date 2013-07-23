@@ -36,7 +36,6 @@ int LED = 13;
 
 // Variaveis
 int speed_val, incomingByte, leftdist, rightdist, obstaculo;
-int obstaculo1;
 int state = 1;
 int onoff = 1;
 int autoroute = 0;
@@ -126,44 +125,42 @@ void findroute() {
   Serial.print(" vs ");
   Serial.println(rightdist);
   
-  if ( leftdist >= rightdist )  // decide para que lado virar
-   {
-   //tone(speaker, (3000), 30);
+  if ( leftdist >= rightdist ) }  // decide para que lado virar
+     //tone(speaker, (3000), 30);
      Serial.print("vou para esquerda ");
 	 Serial.println(leftdist);
      MOTOR_turnleft(speed_val);
-     //Se a distancia R < 40cm e > 4cm delay de 20* R 
-	 if ( rightdist <= 40 || rightdist > 4 ) delay(100*rightdist); else delay(400); MOTOR_halt();
+     //Se a distancia R < 40cm e > 10cm delay de 20* R 
+	 if ( rightdist <= 40 || rightdist > 10 ) delay(20*rightdist); else delay(500); MOTOR_halt();
    }
- else
-   {
-    //tone(speaker, (1000), 30);
-     Serial.print("vou para direita ");
-	 Serial.println(rightdist);
-     MOTOR_turnright(speed_val);
-	 //Se a distancia L < 40cm e > 4cm delay de 20* L
-	 if ( leftdist <= 40 || leftdist > 4 ) delay(100*leftdist); else delay(400); MOTOR_halt();
+   else {
+      //tone(speaker, (1000), 30);
+      Serial.print("vou para direita ");
+	  Serial.println(rightdist);
+      MOTOR_turnright(speed_val);
+	  //Se a distancia L < 40cm e > 10cm delay de 20* L
+	  if ( leftdist <= 40 || leftdist > 10 ) delay(20*leftdist); else delay(500); MOTOR_halt();
    }
 } //end findroute
  
 //Olha para Esquerda,Direita e retorna as distancia
 void look() {
   myservo.write(10);       //Coloca o servo em 10 graus
-  delay(400);              //delay
+  delay(500);              //delay
   leftdist = mediaping();  //Grava a distancia do objeto 
-  delay(200);              //delay
+  delay(100);              //delay
   myservo.write(90);       //Coloca o servo em 90 graus
   delay(350);              //delay
   myservo.write(160);      //Coloca o Servo em 160 graus
   delay(500);              //delay
   rightdist = mediaping(); //Grava a distancia do objeto
-  delay(200);              //delay
+  delay(100);              //delay
   myservo.write(90);       //Coloca o servo em 90 graus
   delay(350);              //delay
   return;
 } // EOF Look
 
-//Le a distancia dos objetos cinco vezes e retorna a media.
+//Para melhorar a acertividade mede a distancia dos objetos cinco vezes e retorna a media.
 int mediaping(){
   int i;
   int sval = 0;
@@ -218,7 +215,6 @@ void MOTOR_turnright (int X) {  //inverte o motor direito Virando para direita
    digitalWrite(motor[3],LOW);   //Motor R -
   return;
 }
-
 
 void MOTOR_halt () {        //Parado
    analogWrite(motor[4], 0); //Velocidade motor Direito
@@ -326,3 +322,4 @@ char infrared(){
   }
 } // End infrared
 */
+
