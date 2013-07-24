@@ -12,12 +12,12 @@ int motor[] = {2, 3, 4, 7, 5, 6};
 // indice: Motor L -, Motor L +, Motor R -, Motor R +, Velocidade motor Direito, Velocidade motor Esquerdo
 
 int RECV_PIN = 11;
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+
 // LED pin attached to Arduino D13
 int LED = 13;
 int speed_val = 155;
-
-IRrecv irrecv(RECV_PIN);
-decode_results results;
 
 void setup()
 {
@@ -137,7 +137,19 @@ void infrared()
 	 test_speed();
          delay (25);
      }
-     else {
+	 else if (results.value == 3041536215 ){ // Remote BMS
+        MOTOR_halt();
+        //digitalWrite(LED, LOW);
+     }
+     else if (results.value == 3041556615 ){ // Remote CD
+        if (onoff = 1) onoff == 0; else onoff == 1;
+        delay(25);
+     } //onoff
+     else if (results.value == 3041540295){ // Remote TUNER
+        if (autoroute = 1) autoroute == 0; else autoroute == 1;
+       delay(25);
+     } //autoroute
+	 else {
         MOTOR_stop();
         digitalWrite(LED, LOW);
 		results.value == 0
