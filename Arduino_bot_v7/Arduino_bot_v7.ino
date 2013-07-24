@@ -92,7 +92,7 @@ void loop(){
           Serial.print(obstaculo);
           Serial.println(" cm");
           //tone(speaker, 5000, 20);
-          speed_val = speed_val*5;}
+          speed_val = speed_val*2;}
     //tone(speaker, (obstaculo*50), 2);
     MOTOR(speed_val,1); //Motor forward
   //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
@@ -124,7 +124,7 @@ void findroute() {
      Serial.println(leftdist);
      MOTOR(speed_val,3); // Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
-     if ( rightdist <= 40 || rightdist > 10 ) delay(20*rightdist); else delay(500); MOTOR(0,0);
+     if ( rightdist <= 40 || rightdist > 10 ) delay(200*rightdist); else delay(2000); MOTOR(0,0);
    }
    else {
       //tone(speaker, (1000), 30);
@@ -132,7 +132,7 @@ void findroute() {
       Serial.println(rightdist);
       MOTOR(speed_val,4); //Motor turnright
       //Se a distancia L < 40cm e > 10cm delay de 20* L
-      if ( leftdist <= 40 || leftdist > 10 ) delay(20*leftdist); else delay(500); MOTOR(0,0);
+      if ( leftdist <= 40 || leftdist > 10 ) delay(200*leftdist); else delay(2000); MOTOR(0,0);
    }
 } //end findroute
  
