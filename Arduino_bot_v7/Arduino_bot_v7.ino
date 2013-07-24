@@ -3,7 +3,6 @@
     Aurelio Monteiro Avanzi
 */
 
-//#include <IRremote.h>
 #include <Servo.h>
 
 // Controle do Motor
@@ -14,11 +13,6 @@ int motor[] = {2, 3, 4, 7, 5, 6};
 int trigPin = 9;
 int echoPin = 8;
 long duration, distance;
-
-// Infrared to Arduino D11
-//int RECV_PIN = 11;
-//IRrecv irrecv(RECV_PIN);
-//decode_results results;
 
 //Potenciometro
 int potpin = 0;
@@ -79,7 +73,6 @@ void setup ()
 } //EOF Setup
 
 void loop(){
-  //infrared();
 
  // Potenciometro le a posicao do potenciometro constantemente para determinar a velocidade.
  potval = analogRead(potpin);               // Le o valor do potenciometro (valor 0 a 1023)
@@ -160,16 +153,6 @@ void look() {
   return;
 } // EOF Look
 
-//Para melhorar a acertividade mede a distancia dos objetos cinco vezes e retorna a media.
-int mediaping(){
-  int sval = 0;
-  for (int i = 0; i < 5; i++){
-    sval = sval + ping();
-    delay(10);}
-  sval = sval / 5;
-  return sval;
-  }
-
 //Rotina que controla os motores
 void MOTOR(int X, int dir) {
     if (X >= 255){X = 255;}       //Trava no 255
@@ -178,35 +161,35 @@ void MOTOR(int X, int dir) {
     analogWrite(motor[5], X );    //Velocidade motor Esquerdo
     digitalWrite(LED, HIGH);
   switch (dir) {
-      case 1:                       // Rotina forward
+      case 1:                       //Rotina forward
       digitalWrite(motor[0],LOW);   //Motor L -
       digitalWrite(motor[1],HIGH);  //Motor L +
       digitalWrite(motor[2],LOW);   //Motor R -
       digitalWrite(motor[3],HIGH);  //Motor R +
       break;
 
-      case 2:                       // Rotina de marcha Re, inverte os dois motores
+      case 2:                       //Rotina de marcha Re, inverte os dois motores
       digitalWrite(motor[0],HIGH);  //Motor L -
       digitalWrite(motor[1],LOW);   //Motor L +
       digitalWrite(motor[2],HIGH);  //Motor R -
       digitalWrite(motor[3],LOW);   //Motor R +
       break;
   
-      case 3:                       //inverte motor esquerdo virando para esquerda
+      case 3:                       //Inverte motor esquerdo virando para esquerda
       digitalWrite(motor[0],HIGH);  //Motor L -
       digitalWrite(motor[1],LOW);   //Motor L +
       digitalWrite(motor[2],LOW);   //Motor R -
       digitalWrite(motor[3],HIGH);  //Motor R +
       break;
 
-      case 4:                       //inverte o motor direito Virando para direita
+      case 4:                       //Inverte o motor direito Virando para direita
       digitalWrite(motor[0],LOW);   //Motor L +
       digitalWrite(motor[1],HIGH);  //Motor L -
       digitalWrite(motor[2],HIGH);  //Motor R +
       digitalWrite(motor[3],LOW);   //Motor R -
       break;
 
-      case 0:                       //motor Parado
+      case 0:                       //Motor Parado
       digitalWrite(motor[0],LOW);   //Motor L +
       digitalWrite(motor[1],LOW);   //Motor L -
       digitalWrite(motor[2],LOW);   //Motor R +
@@ -235,70 +218,12 @@ int ping() {
   return distance;
 } // END Ping
 
-     
-     /*
-// Controle infravermelho
-char infrared(){
-  if (irrecv.decode(&results)) {
-      //tone(speaker, (12100), 40);
-    digitalWrite(LED, HIGH);
-    Serial.println(results.value);
-    if (results.value == 3041526525){ // Remote ^
-         MOTOR_forward(speed_val);
-         delay (25);
-    }
-     else if (results.value == 3041575485){ // Remote >
-         MOTOR_turnright(speed_val);
-         delay (25);
-     }
-     else if (results.value == 3041542845){ // Remote <
-         MOTOR_turnleft(speed_val);
-         delay (25);
-     }
-     else if (results.value == 3041559165){ // Remote v
-         MOTOR_backward(speed_val);
-         delay (25);
-     }
-     else if (results.value == 3041546415){ // Remote +
-     speed_val = speed_val + 5;
-         Serial.print(" SPEED ");
-         Serial.println(speed_val);
-         test_speed();
-         delay (25);
-     }
-     else if (results.value == 3041579055){ // Remote -
-     speed_val = speed_val - 5;
-         Serial.print(" SPEED ");
-         Serial.println(speed_val);
-         test_speed();
-         delay (25);
-     }
-     else if (results.value == 3041536215 ){ // Remote BMS
-        MOTOR_halt();
-        //digitalWrite(LED, LOW);
-          }
-     else if (results.value == 3041556615 ){ // Remote CD
-        if (onoff = 1) {
-             onoff == 0;
-          }
-        else{
-             onoff == 1;
-          }
-        delay(25);
-     } //onoff
-     else if (results.value == 3041540295){ // Remote TUNER
-        if (autoroute = 1) {
-           autoroute == 0;
-        }
-        else{
-           autoroute == 1;
-        }
-       delay(25);
-     } //autoroute
-        delay (25);
-     irrecv.resume(); // Receive the next value
-       digitalWrite(LED, LOW);
+//Para melhorar a acertividade, mede a distancia dos objetos cinco vezes e retorna a media.
+int mediaping(){
+  int sval = 0;
+  for (int i = 0; i < 5; i++){
+    sval = sval + ping();
+    delay(10);}
+  sval = sval / 5;
+  return sval;
   }
-} // End infrared
-*/
-
