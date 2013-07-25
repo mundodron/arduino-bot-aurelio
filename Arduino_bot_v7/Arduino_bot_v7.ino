@@ -34,16 +34,11 @@ int state = 1;
 int onoff = 1;
 int autoroute = 0;
 
-void setup ()
+void setup()
 {
   // L298 motor control
-  pinMode(motor[0],OUTPUT);
-  pinMode(motor[1],OUTPUT);
-  pinMode(motor[2],OUTPUT);
-  pinMode(motor[3],OUTPUT);
-  pinMode(motor[4],OUTPUT);
-  pinMode(motor[5],OUTPUT);
-
+  for (int i = 0; i <= 5; i++) pinMode(motor[i],OUTPUT);
+  
   //Servo
   myservo.attach(servopin);
   myservo.write(90);
@@ -73,14 +68,13 @@ void setup ()
 } //EOF Setup
 
 void loop(){
-
  // Potenciometro le a posicao do potenciometro constantemente para determinar a velocidade.
  potval = analogRead(potpin);               // Le o valor do potenciometro (valor 0 a 1023)
  potval = map(potval, 0, 1023, 0, 255);     // Coloca o valor recebido do potenciometro na escala de 0 a 180 graus
  speed_val = potval;
  
  //Explorar se nao houver obstaculo em menos de 8cm toca o barco
-  if (autoroute = 1) {
+ if (autoroute = 1) {
  obstaculo = ping();
   delay(100);
    if(obstaculo > 8 ) {
@@ -102,7 +96,7 @@ void loop(){
         //tone(speaker, (obstaculo*100), 30);
         speed_val = potval;
         findroute();}
-    } //auto
+ } //auto
 } // End Loop
 
 //fazendo a Rota
@@ -125,6 +119,17 @@ void findroute() {
      MOTOR(speed_val,3); // Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
      if ( rightdist <= 40 || rightdist > 10 ) delay(200*rightdist); else delay(2000); MOTOR(0,0);
+<<<<<<< .mine
+  }
+  else {
+     //tone(speaker, (1000), 30);
+     Serial.print("vou para direita ");
+     Serial.println(rightdist);
+     MOTOR(speed_val,4); //Motor turnright
+     //Se a distancia L < 40cm e > 10cm delay de 20* L
+     if ( leftdist <= 40 || leftdist > 10 ) delay(20*leftdist); else delay(500); MOTOR(0,0);
+  }
+=======
    }
    else {
       //tone(speaker, (1000), 30);
@@ -134,6 +139,7 @@ void findroute() {
       //Se a distancia L < 40cm e > 10cm delay de 20* L
       if ( leftdist <= 40 || leftdist > 10 ) delay(200*leftdist); else delay(2000); MOTOR(0,0);
    }
+>>>>>>> .r93
 } //end findroute
  
 //Olha para Esquerda,Direita e retorna as distancia
@@ -155,12 +161,12 @@ void look() {
 
 //Rotina que controla os motores
 void MOTOR(int X, int dir) {
-    if (X >= 255){X = 255;}       //Trava no 255
-    if (X <= 0){X = 0;}           //Trava no 0
-    analogWrite(motor[4], X);     //Velocidade motor Direito
-    analogWrite(motor[5], X );    //Velocidade motor Esquerdo
+    if (X >= 255){X = 255;}         //Trava no 255
+    if (X <= 0){X = 0;}             //Trava no 0
+    analogWrite(motor[4], X);       //Velocidade motor Direito
+    analogWrite(motor[5], X );      //Velocidade motor Esquerdo
     digitalWrite(LED, HIGH);
-  switch (dir) {
+  switch (dir){
       case 1:                       //Rotina forward
       digitalWrite(motor[0],LOW);   //Motor L -
       digitalWrite(motor[1],HIGH);  //Motor L +
