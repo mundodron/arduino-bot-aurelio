@@ -80,7 +80,7 @@ void loop(){
         Serial.print("nehum obstaculo em menos de 9cm tocando o barco ");
         Serial.print(obstaculo);
         Serial.println("cm");
-        if(obstaculo > 20 ) { //quintuplica a velocidade se nao encontrar nada por perto
+        if(obstaculo > 20 ) { //duplica a velocidade se nao encontrar nada por perto
           Serial.print("Nenhum obstaculo em menos de 20cm triplica velocidade ");
           Serial.print(obstaculo);
           Serial.println(" cm");
@@ -117,7 +117,7 @@ void findroute() {
      Serial.println(leftdist);
      MOTOR(speed_val,3); // Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
-     if ( rightdist <= 40 || rightdist > 10 ) delay(200*rightdist); else delay(2000); MOTOR(0,0);
+     if ( rightdist <= 40 || rightdist > 10 ) delay(100*rightdist); else delay(2000); MOTOR(0,0);
   }
   else {
      //tone(speaker, (1000), 30);
@@ -125,17 +125,8 @@ void findroute() {
      Serial.println(rightdist);
      MOTOR(speed_val,4); //Motor turnright
      //Se a distancia L < 40cm e > 10cm delay de 20* L
-     if ( leftdist <= 40 || leftdist > 10 ) delay(20*leftdist); else delay(500); MOTOR(0,0);
+     if ( leftdist <= 40 || leftdist > 10 ) delay(100*leftdist); else delay(2000); MOTOR(0,0);
   }
-}
-   else {
-      //tone(speaker, (1000), 30);
-      Serial.print("vou para direita ");
-      Serial.println(rightdist);
-      MOTOR(speed_val,4); //Motor turnright
-      //Se a distancia L < 40cm e > 10cm delay de 20* L
-      if ( leftdist <= 40 || leftdist > 10 ) delay(200*leftdist); else delay(2000); MOTOR(0,0);
-   }
 } //end findroute
  
 //Olha para Esquerda,Direita e retorna as distancia
@@ -155,14 +146,16 @@ void look() {
   return;
 } // EOF Look
 
-//Rotina que controla os motores
-void MOTOR(int X, int dir) {
+//Rotina que controla os motores L298 Dual motor (ponte H)
+//velocidade X, inteiro de 0 a 255
+//Direcao Y 1=Frente, 2=Marcha Re, 3=Esquerda, 4=Direita, 0=Para 
+void MOTOR(int X, int Y) {
     if (X >= 255){X = 255;}         //Trava no 255
     if (X <= 0){X = 0;}             //Trava no 0
     analogWrite(motor[4], X);       //Velocidade motor Direito
     analogWrite(motor[5], X );      //Velocidade motor Esquerdo
     digitalWrite(LED, HIGH);
-  switch (dir){
+  switch (Y){
       case 1:                       //Rotina forward
       digitalWrite(motor[0],LOW);   //Motor L -
       digitalWrite(motor[1],HIGH);  //Motor L +
