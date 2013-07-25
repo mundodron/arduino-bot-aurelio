@@ -248,6 +248,7 @@ void fail() { //Function used if the player fails to match the sequence
     Serial.print("voce chegou na fase: ");
 	Serial.println(turn);
     delay(500);
+    led=0;
 
     for (int y=0; y<=turn; y++) // pontuacao 
 	{    
@@ -256,7 +257,7 @@ void fail() { //Function used if the player fails to match the sequence
 		delay(200);
 		digitalWrite(ledpin[led], LOW);
 		delay(200);
-   		if (led <4) led++; else led--;
+   		if (led <3) led++; else led=0;
 	}	
   delay(500);
   turn = -1; //Resets turn value so the game starts over without need for a reset button
