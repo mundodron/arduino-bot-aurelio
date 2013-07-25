@@ -18,6 +18,8 @@ decode_results results;
 // LED pin attached to Arduino D13
 int LED = 13;
 int speed_val = 155;
+int autoroute;
+int onoff;
 
 void setup()
 {
@@ -99,61 +101,56 @@ void infrared()
 {
   if (irrecv.decode(&results)) {
     Serial.println(results.value);
-    if (results.value == 3041526525){ // Remote ^
+    if (results.value == 3041526525LL){ // Remote ^
          digitalWrite(LED, HIGH);
 		 Serial.println("Para Frente");
          MOTOR_forward(speed_val);
          delay (25);
     }
-     else if (results.value == 3041575485){ // Remote >
+     else if (results.value == 3041575485LL){ // Remote >
          digitalWrite(LED, LOW);
 		 Serial.println("Virando para Direita");
          MOTOR_turnright(speed_val);
          delay (25);
      }
-     else if (results.value == 3041542845){ // Remote <
+     else if (results.value == 3041542845LL){ // Remote <
          digitalWrite(LED, LOW);
 		 Serial.println("Virando para Esquerda");
          MOTOR_turnleft(speed_val);
          delay (25);
      }
-     else if (results.value == 3041559165){ // Remote v
+     else if (results.value == 3041559165LL){ // Remote v
          digitalWrite(LED, LOW);
 		 Serial.println("Marcha Re");
          MOTOR_reverse(speed_val);
          delay (25);
      }
-     else if (results.value == 3041546415){ // Remote +
+     else if (results.value == 3041546415LL){ // Remote +
          digitalWrite(LED, LOW);
 	 speed_val = speed_val + 5;
          Serial.println(speed_val);
 	 test_speed();
          delay (25);
      }
-     else if (results.value == 3041579055){ // Remote -
+     else if (results.value == 3041579055LL){ // Remote -
          digitalWrite(LED, LOW);
 	 speed_val = speed_val - 5;
          Serial.println(speed_val);
 	 test_speed();
          delay (25);
      }
-	 else if (results.value == 3041536215 ){ // Remote BMS
-        MOTOR_halt();
+	 else if (results.value == 3041536215LL){ // Remote BMS
+        MOTOR_stop();
         //digitalWrite(LED, LOW);
      }
-     else if (results.value == 3041556615 ){ // Remote CD
+     else if (results.value == 3041556615LL ){ // Remote CD
         if (onoff = 1) onoff == 0; else onoff == 1;
         delay(25);
      } //onoff
-     else if (results.value == 3041540295){ // Remote TUNER
+     else if (results.value == 3041540295LL){ // Remote TUNER
         if (autoroute = 1) autoroute == 0; else autoroute == 1;
        delay(25);
      } //autoroute
-	 else {
-        MOTOR_stop();
-        digitalWrite(LED, LOW);
-		results.value == 0
-          }
     irrecv.resume(); // Receive the next value
   }
 }
