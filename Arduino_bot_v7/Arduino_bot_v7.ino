@@ -4,7 +4,6 @@
 */
 
 #include <Servo.h>
-
 // Controle do Motor
 int motor[] = {2, 3, 4, 7, 5, 6};
 // indice: Motor L -, Motor L +, Motor R -, Motor R +, Velocidade motor Direito, Velocidade motor Esquerdo
@@ -119,7 +118,6 @@ void findroute() {
      MOTOR(speed_val,3); // Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
      if ( rightdist <= 40 || rightdist > 10 ) delay(200*rightdist); else delay(2000); MOTOR(0,0);
-<<<<<<< .mine
   }
   else {
      //tone(speaker, (1000), 30);
@@ -129,8 +127,7 @@ void findroute() {
      //Se a distancia L < 40cm e > 10cm delay de 20* L
      if ( leftdist <= 40 || leftdist > 10 ) delay(20*leftdist); else delay(500); MOTOR(0,0);
   }
-=======
-   }
+}
    else {
       //tone(speaker, (1000), 30);
       Serial.print("vou para direita ");
@@ -139,7 +136,6 @@ void findroute() {
       //Se a distancia L < 40cm e > 10cm delay de 20* L
       if ( leftdist <= 40 || leftdist > 10 ) delay(200*leftdist); else delay(2000); MOTOR(0,0);
    }
->>>>>>> .r93
 } //end findroute
  
 //Olha para Esquerda,Direita e retorna as distancia
