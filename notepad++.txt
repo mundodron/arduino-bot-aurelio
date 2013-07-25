@@ -1,7 +1,0 @@
-At first thanks for your contribution.
-
-Did you try NppExec to compile sources with Arduino ?
-
-My script to execute is : 
-
-"C:\tools\arduino\arduino-1.0.3\arduino.exe" "$(FULL_CURRENT_PATH)" 
