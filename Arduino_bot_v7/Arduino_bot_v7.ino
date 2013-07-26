@@ -8,7 +8,7 @@
 int motor[] = {2, 3, 4, 7, 5, 6};
 // indice: Motor L -, Motor L +, Motor R -, Motor R +, Velocidade motor Direito, Velocidade motor Esquerdo
 
-//Ping  HC-SR04 ultrasonic distance sensor
+//Ping HC-SR04 ultrasonic distance sensor
 int trigPin = 9;
 int echoPin = 8;
 long duration, distance;
@@ -118,8 +118,7 @@ void findroute() {
      MOTOR(speed_val,3); // Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
      if ( rightdist <= 40 || rightdist > 10 ) delay(100*rightdist); else delay(2000); MOTOR(0,0);
-  }
-  else {
+  } else {
      //tone(speaker, (1000), 30);
      Serial.print("vou para direita ");
      Serial.println(rightdist);
