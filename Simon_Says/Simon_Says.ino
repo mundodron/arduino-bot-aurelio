@@ -27,10 +27,8 @@ void setup()
   Serial.begin(9600);
   speakerpin.begin(12); // speaker is on pin 13
 
-  for(int x=0; x<4; x++)  // LED pins are outputs
-  {
-    pinMode(ledpin[x], OUTPUT);
-  }
+  // LED pins are outputs
+  for(int x=0; x<4; x++) pinMode(ledpin[x], OUTPUT;
   
   for(int x=0; x<4; x++) 
   {
@@ -257,7 +255,7 @@ void fail() { //Function used if the player fails to match the sequence
 		delay(200);
 		digitalWrite(ledpin[led], LOW);
 		delay(200);
-   		if (led <3) led++; else led=0;
+   		if (led <=3) led++; else led=0;
 	}	
   delay(500);
   turn = -1; //Resets turn value so the game starts over without need for a reset button
