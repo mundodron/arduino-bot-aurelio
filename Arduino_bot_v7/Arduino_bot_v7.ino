@@ -115,14 +115,14 @@ void findroute(){
      Serial.println(leftdist);
      MOTOR(speed_val,3); // Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
-     if ( rightdist <= 40 && rightdist >= 10 ) delay(20*rightdist); else delay(600); MOTOR(0,0);
+     if (rightdist <= 40 && rightdist >= 10) delay(20*rightdist); else delay(600); MOTOR(0,0);
   } else {
      //tone(speaker, (1000), 30);
      Serial.print("vou para direita ");
      Serial.println(rightdist);
      MOTOR(speed_val,4); //Motor turnright
      //Se a distancia L < 40cm e > 10cm delay de 20* L
-     if ( leftdist <= 40 && leftdist >= 10 ) delay(20*leftdist); else delay(600); MOTOR(0,0);
+     if (leftdist <= 40 && leftdist >= 10) delay(20*leftdist); else delay(600); MOTOR(0,0);
   }
 } //end findroute
  
