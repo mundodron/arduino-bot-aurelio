@@ -1,7 +1,7 @@
-/*
+/* --------------------------------------------------
     Arduino_bot
     Aurelio Monteiro Avanzi
-*/
+*/ --------------------------------------------------
 
 #include <Servo.h>
 // Controle do Motor
@@ -29,9 +29,7 @@ int LED = 13;
 
 // Variaveis
 int speed_val, incomingByte, leftdist, rightdist, obstaculo;
-int state = 1;
-int onoff = 1;
-int autoroute = 0;
+int autoroute = 1;
 
 void setup()
 {
@@ -73,14 +71,14 @@ void loop(){
  speed_val = potval;
  
  //Explorar se nao houver obstaculo em menos de 8cm toca o barco
- if (autoroute = 1) {
+ if (autoroute == 1) {
  obstaculo = ping();
   delay(100);
-   if(obstaculo > 8 ) {
+   if(obstaculo >= 8 ) {
         Serial.print("nehum obstaculo em menos de 9cm tocando o barco ");
         Serial.print(obstaculo);
         Serial.println("cm");
-        if(obstaculo > 20 ) { //duplica a velocidade se nao encontrar nada por perto
+        if(obstaculo >= 20 ) { //duplica a velocidade se nao encontrar nada por perto
           Serial.print("Nenhum obstaculo em menos de 20cm triplica velocidade ");
           Serial.print(obstaculo);
           Serial.println(" cm");
@@ -99,7 +97,7 @@ void loop(){
 } // End Loop
 
 //fazendo a Rota
-void findroute() {
+void findroute(){
   MOTOR(0,0);                  // halt Para!
   MOTOR(speed_val,2);          // backward Anda para tras
   delay(250);                  // Continua por 250ms
@@ -111,25 +109,25 @@ void findroute() {
   Serial.print(" vs ");
   Serial.println(rightdist);
   
-  if ( leftdist >= rightdist ) {  // decide para que lado virar
+  if ( leftdist >= rightdist ){  // decide para que lado virar
      //tone(speaker, (3000), 30);
      Serial.print("vou para esquerda ");
      Serial.println(leftdist);
      MOTOR(speed_val,3); // Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
-     if ( rightdist <= 40 || rightdist > 10 ) delay(100*rightdist); else delay(2000); MOTOR(0,0);
+     if ( rightdist <= 40 || rightdist >= 10 ) delay(20*rightdist); else delay(600); MOTOR(0,0);
   } else {
      //tone(speaker, (1000), 30);
      Serial.print("vou para direita ");
      Serial.println(rightdist);
      MOTOR(speed_val,4); //Motor turnright
      //Se a distancia L < 40cm e > 10cm delay de 20* L
-     if ( leftdist <= 40 || leftdist > 10 ) delay(100*leftdist); else delay(2000); MOTOR(0,0);
+     if ( leftdist <= 40 || leftdist >= 10 ) delay(20*leftdist); else delay(600); MOTOR(0,0);
   }
 } //end findroute
  
 //Olha para Esquerda,Direita e retorna as distancia
-void look() {
+void look(){
   myservo.write(10);       //Coloca o servo em 10 graus
   delay(500);              //delay
   leftdist = mediaping();  //Grava a distancia do objeto 
@@ -207,7 +205,7 @@ void MOTOR(int X, int Y) {
   digitalWrite(LED, LOW);
 }// EOF motor
 
-int ping() {
+int ping(byte mode){
 // HC-SR04 ultrasonic distance sensor
 // A velocidade do som e de 340 m/s ou 29 microssegundos por centimetro.
 // O ping e enviado para frente e reflete no objeto para encontrar a distancia
@@ -219,18 +217,21 @@ int ping() {
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH);
-  distance = (duration/2) / 29.1;
+  duration = pulseIn(echoPin, HIGH); //Microsegundos
+  distance = (duration/2) / 29.1; //Centimetros
   delay(100);
   digitalWrite(LED, HIGH);
-  return distance;
+  if mode == 1
+   return (duration/2); //Retorno em microsegundos
+  else
+   return distance; //Retorno em centimetros
 } // END Ping
 
 //Para melhorar a acertividade, mede a distancia dos objetos cinco vezes e retorna a media.
 int mediaping(){
   int sval = 0;
   for (int i = 0; i < 5; i++){
-    sval = sval + ping();
+    sval = sval + ping(1);
     delay(10);}
   sval = sval / 5;
   return sval;
