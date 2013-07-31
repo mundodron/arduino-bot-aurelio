@@ -24,14 +24,12 @@ int onoff;
 void setup()
 {
   Serial.begin(9600);
-  irrecv.enableIRIn(); // Start the receiver
-  pinMode(motor[0], OUTPUT);
-  pinMode(motor[4], OUTPUT);
-  pinMode(motor[1], OUTPUT);
-  pinMode(motor[2], OUTPUT);
-  pinMode(motor[5], OUTPUT);
-  pinMode(motor[3], OUTPUT);
   
+  // Start the receiver
+  irrecv.enableIRIn(); 
+  
+  //L298 motor control
+  for (int i = 0; i <= 5; i++) pinMode(motor[i],OUTPUT);
   pinMode(LED, OUTPUT);
 }
 

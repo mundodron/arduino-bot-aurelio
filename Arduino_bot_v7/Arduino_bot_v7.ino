@@ -5,6 +5,7 @@
 
 #include <Servo.h>
 #include <IRremote.h>
+
 // Controle do Motor
 int motor[] = {2, 3, 4, 7, 5, 6};
 // indice: Motor L -, Motor L +, Motor R -, Motor R +, Velocidade motor Direito, Velocidade motor Esquerdo
@@ -34,7 +35,7 @@ int speaker = 12;
 int LED = 13;
 
 // Variaveis
-int speed_val, incomingByte, leftdist, rightdist, obstaculo, onoff;
+int speed_val, leftdist, rightdist, obstaculo, onoff;
 int autoroute = 1;
 
 void setup()
@@ -78,6 +79,7 @@ void loop(){
  
  //chama funcao infravermelho
  infrared();
+ 
  //Explorar se nao houver obstaculo em menos de 8cm toca o barco
  if (autoroute == 1) {
  obstaculo = ping(0);
@@ -85,7 +87,7 @@ void loop(){
    if(obstaculo >= 8 ) {
         Serial.print("nehum obstaculo em menos de 9cm tocando o barco ");
         Serial.print(obstaculo);
-        Serial.println("cm");
+        Serial.println(" cm");
         if(obstaculo >= 20 ) { //duplica a velocidade se nao encontrar nada por perto
           Serial.print("Nenhum obstaculo em menos de 20cm triplica velocidade ");
           Serial.print(obstaculo);
@@ -286,6 +288,7 @@ void infrared(){
 	 else if (results.value == 3041536215LL){ // Remote BMS
          Serial.println("IR Pare!");
 		 MOTOR(0,0);
+		 delay (25);
      }
      else if (results.value == 3041556615LL ){ // Remote CD
         if (onoff == 1) onoff = 0; else onoff = 1;
