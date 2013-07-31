@@ -1,9 +1,10 @@
-/* --------------------------------------------------
+/*************************************************
     Arduino_bot
     Aurelio Monteiro Avanzi
-*/ --------------------------------------------------
+ *************************************************/ 
 
 #include <Servo.h>
+#include <IRremote.h>
 // Controle do Motor
 int motor[] = {2, 3, 4, 7, 5, 6};
 // indice: Motor L -, Motor L +, Motor R -, Motor R +, Velocidade motor Direito, Velocidade motor Esquerdo
@@ -21,6 +22,11 @@ int potval;
 int servopin = 10;
 Servo myservo;
 
+//Infravermelho
+int RECV_PIN = 11;
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+
 //Speaker ligado ao pino D12
 int speaker = 12;
 
@@ -28,12 +34,12 @@ int speaker = 12;
 int LED = 13;
 
 // Variaveis
-int speed_val, incomingByte, leftdist, rightdist, obstaculo;
+int speed_val, incomingByte, leftdist, rightdist, obstaculo, onoff;
 int autoroute = 1;
 
 void setup()
 {
-  // L298 motor control
+  //L298 motor control
   for (int i = 0; i <= 5; i++) pinMode(motor[i],OUTPUT);
   
   //Servo
@@ -47,15 +53,15 @@ void setup()
   // declare imputs botao
   //pinMode(botao, INPUT);
 
-  //Infrared
-  //irrecv.enableIRIn(); // Start the receiver
+  // Start the infrared receiver
+  irrecv.enableIRIn(); 
   
   //Serial setup
   Serial.begin(9600);
   Serial.println("Iniciando Sistema");
   // Tada
   // tone(speaker, frequency, duration)
-  //tone(speaker, 200, 300);
+  // tone(speaker, 200, 300);
   delay(100);
   //tone(speaker, 300, 400);
   delay(80);
@@ -70,9 +76,11 @@ void loop(){
  potval = map(potval, 0, 1023, 0, 255);     // Coloca o valor recebido do potenciometro na escala de 0 a 180 graus
  speed_val = potval;
  
+ //chama funcao infravermelho
+ infrared();
  //Explorar se nao houver obstaculo em menos de 8cm toca o barco
  if (autoroute == 1) {
- obstaculo = ping();
+ obstaculo = ping(0);
   delay(100);
    if(obstaculo >= 8 ) {
         Serial.print("nehum obstaculo em menos de 9cm tocando o barco ");
@@ -93,7 +101,7 @@ void loop(){
         //tone(speaker, (obstaculo*100), 30);
         speed_val = potval;
         findroute();}
- } //auto
+ } //autoroute
 } // End Loop
 
 //fazendo a Rota
@@ -113,7 +121,7 @@ void findroute(){
      //tone(speaker, (3000), 30);
      Serial.print("vou para esquerda ");
      Serial.println(leftdist);
-     MOTOR(speed_val,3); // Motor turnleft
+     MOTOR(speed_val,3); //Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
      if (rightdist <= 40 && rightdist >= 10) delay(20*rightdist); else delay(600); MOTOR(0,0);
   } else {
@@ -205,7 +213,7 @@ void MOTOR(int X, int Y) {
   digitalWrite(LED, LOW);
 }// EOF motor
 
-int ping(byte mode){
+int ping(int mode){
 // HC-SR04 ultrasonic distance sensor
 // A velocidade do som e de 340 m/s ou 29 microssegundos por centimetro.
 // O ping e enviado para frente e reflete no objeto para encontrar a distancia
@@ -221,7 +229,7 @@ int ping(byte mode){
   distance = (duration/2) / 29.1; //Centimetros
   delay(100);
   digitalWrite(LED, HIGH);
-  if mode == 1
+  if (mode == 1)
    return (duration/2); //Retorno em microsegundos
   else
    return distance; //Retorno em centimetros
@@ -236,3 +244,62 @@ int mediaping(){
   sval = sval / 5;
   return sval;
   }
+  
+// Controle por infra vermelho (IR)
+// Valores para o Controle Pioneer Cxa5857
+void infrared(){
+  if (irrecv.decode(&results)) {
+    Serial.println(results.value);
+	digitalWrite(LED, HIGH);
+    if (results.value == 3041526525LL){ // Remote ^
+		 Serial.println("IR Para Frente");
+         MOTOR(speed_val,1); //Frente
+         delay (25);
+    }
+     else if (results.value == 3041575485LL){ // Remote >
+		 Serial.println("IR Virando para Direita");
+         MOTOR(speed_val,4); //Direita
+         delay (25);
+     }
+     else if (results.value == 3041542845LL){ // Remote <
+		 Serial.println("IR Virando para Esquerda");
+         MOTOR(speed_val,3); //Esquerda
+         delay (25);
+     }
+     else if (results.value == 3041559165LL){ // Remote v
+		 Serial.println("IR Marcha Re");
+         MOTOR(speed_val,2); //Macha Ré
+         delay (25);
+     }
+     else if (results.value == 3041546415LL){ // Remote +
+	     speed_val = speed_val + 5;
+	     Serial.print("IR Speed + ");
+         Serial.println(speed_val);
+         delay (25);
+     }
+     else if (results.value == 3041579055LL){ // Remote -
+	     speed_val = speed_val - 5;
+	     Serial.print("IR Speed - ");
+         Serial.println(speed_val);
+         delay (25);
+     }
+	 else if (results.value == 3041536215LL){ // Remote BMS
+         Serial.println("IR Pare!");
+		 MOTOR(0,0);
+     }
+     else if (results.value == 3041556615LL ){ // Remote CD
+        if (onoff == 1) onoff = 0; else onoff = 1;
+	   Serial.print("IR onoff ");
+	   Serial.println(onoff);
+       delay(25);
+     } //onoff
+     else if (results.value == 3041540295LL){ // Remote TUNER
+        if (autoroute == 1) autoroute = 0; else autoroute = 1;
+	   Serial.print("IR Autoroute ");
+	   Serial.println(autoroute);
+       delay(25);
+     } //autoroute
+    irrecv.resume(); // Receive the next value
+	digitalWrite(LED, LOW);
+    } //EOF IF
+   } //EOF IR
