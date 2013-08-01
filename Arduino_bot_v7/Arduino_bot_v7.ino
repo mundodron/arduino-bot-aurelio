@@ -35,8 +35,7 @@ int speaker = 12;
 int LED = 13;
 
 // Variaveis
-int speed_val, leftdist, rightdist, obstaculo, onoff;
-int autoroute = 1;
+int speed_val, leftdist, rightdist, obstaculo, onoff = 1, autoroute = 1;
 
 void setup()
 {
@@ -74,7 +73,6 @@ void setup()
  potval = analogRead(potpin);               // Le o valor do potenciometro (valor 0 a 1023)
  potval = map(potval, 0, 1023, 0, 255);     // Coloca o valor recebido do potenciometro na escala de 0 a 180 graus
  speed_val = potval;
-
 } //EOF Setup
 
 void loop(){
@@ -86,18 +84,19 @@ void loop(){
  if (autoroute == 1) {
  obstaculo = ping(0);
   delay(100);
-   if(obstaculo >= 8 ) {
+   if(obstaculo > 8 ) {
         //Serial.print("nehum obstaculo em menos de 9cm tocando o barco ");
         //Serial.print(obstaculo);
         //Serial.println(" cm");
-        if(obstaculo >= 20 ) { //duplica a velocidade se nao encontrar nada por perto
+		MOTOR(speed_val,1); //Motor forward
+        if(obstaculo > 20 ) { //duplica a velocidade se nao encontrar nada por perto
           //Serial.print("Nenhum obstaculo em menos de 20cm triplica velocidade ");
           //Serial.print(obstaculo);
           //Serial.println(" cm");
           //tone(speaker, 5000, 20);
-          speed_val = speed_val*2;}
+          //speed_val = speed_val*2;}
     //tone(speaker, (obstaculo*50), 2);
-    MOTOR(speed_val,1); //Motor forward
+    MOTOR((speed_val*2),1); //Motor forward
   //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
   } else {
         Serial.print("Obstaculo encontrado a ");
@@ -159,59 +158,59 @@ void look(){
 //velocidade X, inteiro de 0 a 255
 //Direcao Y 1=Frente, 2=Marcha Re, 3=Esquerda, 4=Direita, 0=Para 
 void MOTOR(int X, int Y) {
-    if (X >= 255){X = 255;}         //Trava no 255
-    if (X <= 0){X = 0;}             //Trava no 0
-    analogWrite(motor[4], X);       //Velocidade motor Direito
-    analogWrite(motor[5], X );      //Velocidade motor Esquerdo
-    digitalWrite(LED, HIGH);
-  switch (Y){
-      case 1:                       //Rotina forward
-      digitalWrite(motor[0],LOW);   //Motor L -
-      digitalWrite(motor[1],HIGH);  //Motor L +
-      digitalWrite(motor[2],LOW);   //Motor R -
-      digitalWrite(motor[3],HIGH);  //Motor R +
-      break;
-
-      case 2:                       //Rotina de marcha Re, inverte os dois motores
-      digitalWrite(motor[0],HIGH);  //Motor L -
-      digitalWrite(motor[1],LOW);   //Motor L +
-      digitalWrite(motor[2],HIGH);  //Motor R -
-      digitalWrite(motor[3],LOW);   //Motor R +
-      break;
-  
-      case 3:                       //Inverte motor esquerdo virando para esquerda
-      digitalWrite(motor[0],HIGH);  //Motor L -
-      digitalWrite(motor[1],LOW);   //Motor L +
-      digitalWrite(motor[2],LOW);   //Motor R -
-      digitalWrite(motor[3],HIGH);  //Motor R +
-      break;
-
-      case 4:                       //Inverte o motor direito Virando para direita
-      digitalWrite(motor[0],LOW);   //Motor L +
-      digitalWrite(motor[1],HIGH);  //Motor L -
-      digitalWrite(motor[2],HIGH);  //Motor R +
-      digitalWrite(motor[3],LOW);   //Motor R -
-      break;
-	  
-	  case 5:                       //Frea motor esquerdo virando para esquerda com mais velocidade 
-      digitalWrite(motor[0],HIGH);  //Motor L -
-      digitalWrite(motor[1],LOW);   //Motor L +
-      digitalWrite(motor[2],LOW);   //Motor R -
-      digitalWrite(motor[3],LOW);   //Motor R +
-      break;
-
-      case 6:                       //Frea o motor direito Virando para direita com mais velocidade 
-      digitalWrite(motor[0],LOW);   //Motor L +
-      digitalWrite(motor[1],LOW);   //Motor L -
-      digitalWrite(motor[2],HIGH);  //Motor R +
-      digitalWrite(motor[3],LOW);   //Motor R -
-      break;
-
-      case 0:                       //Motor Parado
-      digitalWrite(motor[0],LOW);   //Motor L +
-      digitalWrite(motor[1],LOW);   //Motor L -
-      digitalWrite(motor[2],LOW);   //Motor R +
-      digitalWrite(motor[3],LOW);   //Motor R -
+    if (X >= 255){X = 255;}             //Trava no 255
+    if (onoff == 0 || X <= 0){X = 0;}   //Trava no 0
+    analogWrite(motor[4], X);           //Velocidade motor Direito
+    analogWrite(motor[5], X );          //Velocidade motor Esquerdo
+    digitalWrite(LED, HIGH);            
+  switch (Y){                           
+      case 1:                           //Rotina forward
+      digitalWrite(motor[0],LOW);       //Motor L -
+      digitalWrite(motor[1],HIGH);      //Motor L +
+      digitalWrite(motor[2],LOW);       //Motor R -
+      digitalWrite(motor[3],HIGH);      //Motor R +
+      break;                            
+                                        
+      case 2:                           //Rotina de marcha Re, inverte os dois motores
+      digitalWrite(motor[0],HIGH);      //Motor L -
+      digitalWrite(motor[1],LOW);       //Motor L +
+      digitalWrite(motor[2],HIGH);      //Motor R -
+      digitalWrite(motor[3],LOW);       //Motor R +
+      break;                            
+                                        
+      case 3:                           //Inverte motor esquerdo virando para esquerda
+      digitalWrite(motor[0],HIGH);      //Motor L -
+      digitalWrite(motor[1],LOW);       //Motor L +
+      digitalWrite(motor[2],LOW);       //Motor R -
+      digitalWrite(motor[3],HIGH);      //Motor R +
+      break;                            
+                                        
+      case 4:                           //Inverte o motor direito Virando para direita
+      digitalWrite(motor[0],LOW);       //Motor L +
+      digitalWrite(motor[1],HIGH);      //Motor L -
+      digitalWrite(motor[2],HIGH);      //Motor R +
+      digitalWrite(motor[3],LOW);       //Motor R -
+      break;                            
+	                                    
+	  case 5:                           //Frea motor esquerdo virando para esquerda com mais velocidade 
+      digitalWrite(motor[0],HIGH);      //Motor L -
+      digitalWrite(motor[1],LOW);       //Motor L +
+      digitalWrite(motor[2],LOW);       //Motor R -
+      digitalWrite(motor[3],LOW);       //Motor R +
+      break;                            
+                                        
+      case 6:                           //Frea o motor direito Virando para direita com mais velocidade 
+      digitalWrite(motor[0],LOW);       //Motor L +
+      digitalWrite(motor[1],LOW);       //Motor L -
+      digitalWrite(motor[2],HIGH);      //Motor R +
+      digitalWrite(motor[3],LOW);       //Motor R -
+      break;                            
+                                        
+      case 0:                           //Motor Parado
+      digitalWrite(motor[0],LOW);       //Motor L +
+      digitalWrite(motor[1],LOW);       //Motor L -
+      digitalWrite(motor[2],LOW);       //Motor R +
+      digitalWrite(motor[3],LOW);       //Motor R -
       break;
   } //EOF switch
   digitalWrite(LED, LOW);
