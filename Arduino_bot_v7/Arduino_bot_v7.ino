@@ -69,13 +69,15 @@ void setup()
   //tone(speaker, 100, 300);
 
   digitalWrite(LED, LOW);
-} //EOF Setup
 
-void loop(){
  // Potenciometro le a posicao do potenciometro constantemente para determinar a velocidade.
  potval = analogRead(potpin);               // Le o valor do potenciometro (valor 0 a 1023)
  potval = map(potval, 0, 1023, 0, 255);     // Coloca o valor recebido do potenciometro na escala de 0 a 180 graus
  speed_val = potval;
+
+} //EOF Setup
+
+void loop(){
  
  //chama funcao infravermelho
  infrared();
@@ -85,13 +87,13 @@ void loop(){
  obstaculo = ping(0);
   delay(100);
    if(obstaculo >= 8 ) {
-        Serial.print("nehum obstaculo em menos de 9cm tocando o barco ");
-        Serial.print(obstaculo);
-        Serial.println(" cm");
+        //Serial.print("nehum obstaculo em menos de 9cm tocando o barco ");
+        //Serial.print(obstaculo);
+        //Serial.println(" cm");
         if(obstaculo >= 20 ) { //duplica a velocidade se nao encontrar nada por perto
-          Serial.print("Nenhum obstaculo em menos de 20cm triplica velocidade ");
-          Serial.print(obstaculo);
-          Serial.println(" cm");
+          //Serial.print("Nenhum obstaculo em menos de 20cm triplica velocidade ");
+          //Serial.print(obstaculo);
+          //Serial.println(" cm");
           //tone(speaker, 5000, 20);
           speed_val = speed_val*2;}
     //tone(speaker, (obstaculo*50), 2);
@@ -99,7 +101,7 @@ void loop(){
   //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
   } else {
         Serial.print("Obstaculo encontrado a ");
-        Serial.print(obstaculo);
+        Serial.println(obstaculo);
         //tone(speaker, (obstaculo*100), 30);
         speed_val = potval;
         findroute();}
@@ -110,11 +112,11 @@ void loop(){
 void findroute(){
   MOTOR(0,0);                  // halt Para!
   MOTOR(speed_val,2);          // backward Anda para tras
-  delay(250);                  // Continua por 250ms
+  delay(450);                  // Continua por 450ms
   MOTOR(0,0);                  // halt Para e...
   look();                      // Olha para esquerda,direita e retorna as distancia do objeto 
   
-  Serial.print("Para onde eu viro? E ou D");
+  Serial.print("Para onde eu viro? E ou D ");
   Serial.print(leftdist);
   Serial.print(" vs ");
   Serial.println(rightdist);
