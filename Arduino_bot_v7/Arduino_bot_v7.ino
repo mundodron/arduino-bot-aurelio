@@ -186,10 +186,10 @@ void MOTOR(int X, int Y) {
       break;                            
                                         
       case 4:                           //Inverte o motor direito Virando para direita
-      digitalWrite(motor[0],LOW);       //Motor L +
-      digitalWrite(motor[1],HIGH);      //Motor L -
-      digitalWrite(motor[2],HIGH);      //Motor R +
-      digitalWrite(motor[3],LOW);       //Motor R -
+      digitalWrite(motor[0],LOW);       //Motor L -
+      digitalWrite(motor[1],HIGH);      //Motor L +
+      digitalWrite(motor[2],HIGH);      //Motor R -
+      digitalWrite(motor[3],LOW);       //Motor R +
       break;                            
 	                                    
 	  case 5:                           //Frea motor esquerdo virando para esquerda com mais velocidade 
@@ -200,17 +200,17 @@ void MOTOR(int X, int Y) {
       break;                            
                                         
       case 6:                           //Frea o motor direito Virando para direita com mais velocidade 
-      digitalWrite(motor[0],LOW);       //Motor L +
-      digitalWrite(motor[1],LOW);       //Motor L -
-      digitalWrite(motor[2],HIGH);      //Motor R +
-      digitalWrite(motor[3],LOW);       //Motor R -
+      digitalWrite(motor[0],LOW);       //Motor L -
+      digitalWrite(motor[1],LOW);       //Motor L +
+      digitalWrite(motor[2],HIGH);      //Motor R -
+      digitalWrite(motor[3],LOW);       //Motor R +
       break;                            
                                         
       case 0:                           //Motor Parado
-      digitalWrite(motor[0],LOW);       //Motor L +
-      digitalWrite(motor[1],LOW);       //Motor L -
-      digitalWrite(motor[2],LOW);       //Motor R +
-      digitalWrite(motor[3],LOW);       //Motor R -
+      digitalWrite(motor[0],LOW);       //Motor L -
+      digitalWrite(motor[1],LOW);       //Motor L +
+      digitalWrite(motor[2],LOW);       //Motor R -
+      digitalWrite(motor[3],LOW);       //Motor R +
       break;
   } //EOF switch
   digitalWrite(LED, LOW);
