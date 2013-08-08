@@ -105,7 +105,7 @@ void loop(){
         //tone(speaker, (obstaculo*100), 30);
         speed_val = potval;
         findroute();}
-  } //obstaculo
+   } //obstaculo
  } //autoroute
 } // End Loop
 
@@ -129,14 +129,13 @@ void findroute(){
      MOTOR(speed_val,3); //Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
      if (rightdist <= 40 && rightdist >= 10) delay(20*rightdist); else delay(600); MOTOR(0,0);
-   else {
+  } else {
      //tone(speaker, (1000), 30);
      Serial.print("vou para direita ");
      Serial.println(rightdist);
      MOTOR(speed_val,4); //Motor turnright
      //Se a distancia L < 40cm e > 10cm delay de 20* L
      if (leftdist <= 40 && leftdist >= 10) delay(20*leftdist); else delay(600); MOTOR(0,0);
-   }
   }
 } //end findroute
  
@@ -248,8 +247,6 @@ int mediaping(){
     sval = sval + ping(1);
     delay(10);}
   sval = sval / 5;
-  Serial.print("Media da distancia ")
-  Serial.println(sval);
   return sval;
   }
   
