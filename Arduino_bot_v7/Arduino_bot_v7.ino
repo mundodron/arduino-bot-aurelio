@@ -88,22 +88,24 @@ void loop(){
         //Serial.print("nehum obstaculo em menos de 9cm tocando o barco ");
         //Serial.print(obstaculo);
         //Serial.println(" cm");
-		MOTOR(speed_val,1); //Motor forward
+        MOTOR(speed_val,1); //Motor forward
         if(obstaculo > 20 ) { //duplica a velocidade se nao encontrar nada por perto
           //Serial.print("Nenhum obstaculo em menos de 20cm triplica velocidade ");
           //Serial.print(obstaculo);
           //Serial.println(" cm");
           //tone(speaker, 5000, 20);
-          //speed_val = speed_val*2;}
-    //tone(speaker, (obstaculo*50), 2);
-    MOTOR((speed_val*2),1); //Motor forward
-  //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota...
-  } else {
+          //speed_val = speed_val*2;
+          //tone(speaker, (obstaculo*50), 2);
+          MOTOR((speed_val*2),1); //Motor forward
+        }
+  //Se encontrar um obstaculo entre 0cm e 8cm procura outra rota... 
+  else {
         Serial.print("Obstaculo encontrado a ");
         Serial.println(obstaculo);
         //tone(speaker, (obstaculo*100), 30);
         speed_val = potval;
         findroute();}
+  } //obstaculo
  } //autoroute
 } // End Loop
 
@@ -127,13 +129,14 @@ void findroute(){
      MOTOR(speed_val,3); //Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
      if (rightdist <= 40 && rightdist >= 10) delay(20*rightdist); else delay(600); MOTOR(0,0);
-  } else {
+   else {
      //tone(speaker, (1000), 30);
      Serial.print("vou para direita ");
      Serial.println(rightdist);
      MOTOR(speed_val,4); //Motor turnright
      //Se a distancia L < 40cm e > 10cm delay de 20* L
      if (leftdist <= 40 && leftdist >= 10) delay(20*leftdist); else delay(600); MOTOR(0,0);
+   }
   }
 } //end findroute
  
@@ -245,6 +248,8 @@ int mediaping(){
     sval = sval + ping(1);
     delay(10);}
   sval = sval / 5;
+  Serial.print("Media da distancia ")
+  Serial.println(sval);
   return sval;
   }
   
