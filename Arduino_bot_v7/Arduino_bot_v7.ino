@@ -129,7 +129,8 @@ void findroute(){
      MOTOR(speed_val,3); //Motor turnleft
      //Se a distancia R < 40cm e > 10cm delay de 20* R 
      if (rightdist <= 40 && rightdist >= 10) delay(20*rightdist); else delay(600); MOTOR(0,0);
-  } else {
+  }
+  else {
      //tone(speaker, (1000), 30);
      Serial.print("vou para direita ");
      Serial.println(rightdist);
@@ -160,10 +161,10 @@ void look(){
 //velocidade X, inteiro de 0 a 255
 //Direcao Y 1=Frente, 2=Marcha Re, 3=Esquerda, 4=Direita, 0=Para 
 void MOTOR(int X, int Y) {
-    if (X >= 255){X = 255;}             //Trava no 255
-    if (onoff == 0 || X <= 0){X = 0;}   //Trava no 0
+    if (X >= 255) X = 255;              //Trava no 255
+    if (onoff == 0 || X <= 0) X = 0;    //Trava no 0
     analogWrite(motor[4], X);           //Velocidade motor Direito
-    analogWrite(motor[5], X );          //Velocidade motor Esquerdo
+    analogWrite(motor[5], X);           //Velocidade motor Esquerdo
     digitalWrite(LED, HIGH);            
   switch (Y){                           
       case 1:                           //Rotina forward
