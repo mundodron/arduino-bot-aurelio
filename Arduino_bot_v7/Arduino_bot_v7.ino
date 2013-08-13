@@ -35,7 +35,8 @@ int speaker = 12;
 int LED = 13;
 
 // Variaveis
-int speed_val, leftdist, rightdist, obstaculo, onoff = 1, autoroute = 1;
+int speed_val, leftdist, rightdist, obstaculo;
+boolean autoroute, onoff;
 
 void setup()
 {
@@ -81,7 +82,7 @@ void loop(){
  infrared();
  
  //Explorar se nao houver obstaculo em menos de 8cm toca o barco
- if (autoroute == 1) {
+ if (autoroute) {
  obstaculo = ping(0);
   delay(100);
    if(obstaculo > 8 ) {
@@ -108,6 +109,55 @@ void loop(){
    } //obstaculo
  } //autoroute
 } // End Loop
+
+int ping(int mode){
+// HC-SR04 ultrasonic distance sensor
+// A velocidade do som e de 340 m/s ou 29 microssegundos por centimetro.
+// O ping e enviado para frente e reflete no objeto para encontrar a distancia
+// A distancia do objeto fica na metade da distancia percorrida.
+
+  digitalWrite(LED, LOW);
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH); //Microsegundos
+  distance = (duration/2) / 29.1; //Centimetros
+  delay(100);
+  digitalWrite(LED, HIGH);
+  if (mode == 1)
+   return (duration/2); //Retorno em microsegundos
+  else
+   return distance; //Retorno em centimetros
+} // END Ping
+
+//Para melhorar a acertividade, mede a distancia dos objetos cinco vezes e retorna a media.
+int mediaping(){
+  int sval = 0;
+  for (int i = 0; i < 5; i++){
+    sval = sval + ping(1);
+    delay(10);}
+  sval = sval / 5;
+  return sval;
+  }
+
+//Olha para Esquerda,Direita e retorna as distancia
+void look(){
+  myservo.write(10);       //Coloca o servo em 10 graus
+  delay(500);              //delay
+  leftdist = mediaping();  //Grava a distancia do objeto 
+  delay(100);              //delay
+  myservo.write(90);       //Coloca o servo em 90 graus
+  delay(350);              //delay
+  myservo.write(160);      //Coloca o Servo em 160 graus
+  delay(500);              //delay
+  rightdist = mediaping(); //Grava a distancia do objeto
+  delay(100);              //delay
+  myservo.write(90);       //Coloca o servo em 90 graus
+  delay(350);              //delay
+  return;
+} // EOF Look
 
 //fazendo a Rota
 void findroute(){
@@ -140,29 +190,12 @@ void findroute(){
   }
 } //end findroute
  
-//Olha para Esquerda,Direita e retorna as distancia
-void look(){
-  myservo.write(10);       //Coloca o servo em 10 graus
-  delay(500);              //delay
-  leftdist = mediaping();  //Grava a distancia do objeto 
-  delay(100);              //delay
-  myservo.write(90);       //Coloca o servo em 90 graus
-  delay(350);              //delay
-  myservo.write(160);      //Coloca o Servo em 160 graus
-  delay(500);              //delay
-  rightdist = mediaping(); //Grava a distancia do objeto
-  delay(100);              //delay
-  myservo.write(90);       //Coloca o servo em 90 graus
-  delay(350);              //delay
-  return;
-} // EOF Look
-
 //Rotina que controla os motores L298 Dual motor (ponte H)
 //velocidade X, inteiro de 0 a 255
 //Direcao Y 1=Frente, 2=Marcha Re, 3=Esquerda, 4=Direita, 0=Para 
 void MOTOR(int X, int Y) {
     if (X >= 255) X = 255;              //Trava no 255
-    if (onoff == 0 || X <= 0) X = 0;    //Trava no 0
+    if (onoff == false || X <= 0) X = 0;    //Trava no 0
     analogWrite(motor[4], X);           //Velocidade motor Direito
     analogWrite(motor[5], X);           //Velocidade motor Esquerdo
     digitalWrite(LED, HIGH);            
@@ -218,38 +251,6 @@ void MOTOR(int X, int Y) {
   } //EOF switch
   digitalWrite(LED, LOW);
 }// EOF motor
-
-int ping(int mode){
-// HC-SR04 ultrasonic distance sensor
-// A velocidade do som e de 340 m/s ou 29 microssegundos por centimetro.
-// O ping e enviado para frente e reflete no objeto para encontrar a distancia
-// A distancia do objeto fica na metade da distancia percorrida.
-
-  digitalWrite(LED, LOW);
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH); //Microsegundos
-  distance = (duration/2) / 29.1; //Centimetros
-  delay(100);
-  digitalWrite(LED, HIGH);
-  if (mode == 1)
-   return (duration/2); //Retorno em microsegundos
-  else
-   return distance; //Retorno em centimetros
-} // END Ping
-
-//Para melhorar a acertividade, mede a distancia dos objetos cinco vezes e retorna a media.
-int mediaping(){
-  int sval = 0;
-  for (int i = 0; i < 5; i++){
-    sval = sval + ping(1);
-    delay(10);}
-  sval = sval / 5;
-  return sval;
-  }
   
 // Controle por infra vermelho (IR)
 // Valores para o Controle Pioneer Cxa5857
@@ -295,13 +296,15 @@ void infrared(){
 		 delay (25);
      }
      else if (results.value == 3041556615LL ){ // Remote CD
-        if (onoff == 1) onoff = 0; else onoff = 1;
+        //if (onoff == 1) onoff = 0; else onoff = 1;
+	   onoff = !onoff;
 	   Serial.print("IR onoff ");
 	   Serial.println(onoff);
        delay(25);
      } //onoff
      else if (results.value == 3041540295LL){ // Remote TUNER
-        if (autoroute == 1) autoroute = 0; else autoroute = 1;
+        //if (autoroute == 1) autoroute = 0; else autoroute = 1;
+	   autoroute = !autoroute;
 	   Serial.print("IR Autoroute ");
 	   Serial.println(autoroute);
        delay(25);
