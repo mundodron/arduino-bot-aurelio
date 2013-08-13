@@ -77,7 +77,6 @@ void setup()
 } //EOF Setup
 
 void loop(){
- 
  //chama funcao infravermelho
  infrared();
  
@@ -133,8 +132,7 @@ int ping(int mode){
 } // END Ping
 
 //Para melhorar a acertividade, mede a distancia dos objetos cinco vezes e retorna a media.
-int mediaping(){
-  int sval = 0;
+int mediaping(){int sval = 0;
   for (int i = 0; i < 5; i++){
     sval = sval + ping(1);
     delay(10);}
@@ -194,10 +192,10 @@ void findroute(){
 //velocidade X, inteiro de 0 a 255
 //Direcao Y 1=Frente, 2=Marcha Re, 3=Esquerda, 4=Direita, 0=Para 
 void MOTOR(int X, int Y) {
-    if (X >= 255) X = 255;              //Trava no 255
-    if (onoff == false || X <= 0) X = 0;    //Trava no 0
-    analogWrite(motor[4], X);           //Velocidade motor Direito
-    analogWrite(motor[5], X);           //Velocidade motor Esquerdo
+    if (X >= 255) X = 255;                 //Trava no 255
+    if (onoff == false || X <= 0) X = 0;   //Trava no 0
+    analogWrite(motor[4], X);              //Velocidade motor Direito
+    analogWrite(motor[5], X);              //Velocidade motor Esquerdo
     digitalWrite(LED, HIGH);            
   switch (Y){                           
       case 1:                           //Rotina forward
