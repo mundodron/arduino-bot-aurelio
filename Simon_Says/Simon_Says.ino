@@ -255,7 +255,7 @@ void fail() { //Function used if the player fails to match the sequence
 		delay(200);
 		digitalWrite(ledpin[led], LOW);
 		delay(200);
-   		if (led <=3) led++; else led=0;
+   	  // if (led <=3) led++; else led=0;
 	}	
   delay(500);
   turn = -1; //Resets turn value so the game starts over without need for a reset button
