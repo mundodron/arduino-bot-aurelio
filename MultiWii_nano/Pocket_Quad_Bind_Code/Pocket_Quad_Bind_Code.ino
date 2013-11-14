@@ -29,7 +29,7 @@
 // 8 low pulses: DSMX 11ms
 
 // Enter your desired number of low pulses 
-#define SPEK_BIND_PULSES 6
+#define SPEK_BIND_PULSES 2
 
 // Counter Variable
 int i = 0;
@@ -37,21 +37,21 @@ int i = 0;
 void setup()
 { 
   
-pinMode(0, OUTPUT);
+pinMode(1, OUTPUT);
 
-digitalWrite(0, HIGH);
+digitalWrite(1, HIGH);
 delayMicroseconds(116);
 
 while(i < SPEK_BIND_PULSES) 
 { 
-digitalWrite(0, LOW); 
+digitalWrite(1, LOW); 
 delayMicroseconds(116);
-digitalWrite(0, HIGH);
+digitalWrite(1, HIGH);
 delayMicroseconds(116);
 i++;
 }
 
-pinMode(0, INPUT);
+pinMode(1, INPUT);
 
 // End of Setup
 }
