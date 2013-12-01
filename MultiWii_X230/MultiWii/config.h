@@ -362,9 +362,9 @@
          Spektrum Satellites are 3V devices.  DO NOT connect to 5V!
          For MEGA boards, attach sat grey wire to RX1, pin 19. Sat black wire to ground. Sat orange wire to Mega board's 3.3V (or any other 3V to 3.3V source).
          For PROMINI, attach sat grey to RX0.  Attach sat black to ground. */
-      //#define SPEKTRUM 1024
+      #define SPEKTRUM 1024
       //#define SPEKTRUM 2048
-      #define SPEK_SERIAL_PORT 3=    // Forced to 0 on Pro Mini and single serial boards; Set to your choice of 0, 1, or 2 on any Mega based board (defaults to 1 on Mega).
+      #define SPEK_SERIAL_PORT 3    // Forced to 0 on Pro Mini and single serial boards; Set to your choice of 0, 1, or 2 on any Mega based board (defaults to 1 on Mega).
       //**************************
       // Defines that allow a "Bind" of a Spektrum or Compatible Remote Receiver (aka Satellite) via Configuration GUI.
       //   Bind mode will be same as declared above, if your TX is capable.
