@@ -55,7 +55,7 @@
     //#define MINTHROTTLE 1120 // for Super Simple ESCs 10A
     //#define MINTHROTTLE 1064 // special ESC (simonk)
     //#define MINTHROTTLE 1050 // for brushed ESCs like ladybird
-    #define MINTHROTTLE 1000 // (*)
+    #define MINTHROTTLE 1011 // (*)
 
   /****************************    Motor maxthrottle    *******************************/
     /* this is the maximum value for the ESCs at full power, this value can be increased up to 2000 */
@@ -67,8 +67,8 @@
     #define MINCOMMAND  1000
 
   /**********************************    I2C speed   ************************************/
-    //#define I2C_SPEED 100000L     //100kHz normal mode, this value must be used for a genuine WMP
-    #define I2C_SPEED 400000L   //400kHz fast mode, it works only with some WMP clones
+    #define I2C_SPEED 100000L     //100kHz normal mode, this value must be used for a genuine WMP
+    //#define I2C_SPEED 400000L   //400kHz fast mode, it works only with some WMP clones
 
   /***************************    Internal i2c Pullups   ********************************/
     /* enable internal I2C pull ups (in most cases it is better to use external pullups) */
