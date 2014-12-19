@@ -107,3 +107,4 @@ REMOVED Code: [FEATURE] r1685-two_stick_arm_with_timeout.patch (http://www.multi
 MERGED  GUI:  [PATCH] MultiwiiConf r1865 miscellaneous fixes (http://www.multiwii.com/forum/viewtopic.php?f=8&t=5401)
 
 The included MultiWiiConf binary is identical to the previous 1685 release.
+
