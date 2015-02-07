@@ -1295,6 +1295,25 @@
   #define SERVO_5_PINMODE            pinMode(12,OUTPUT);        // SERVO5 , use hardware PWM
 #endif
 
+#if defined(MX_NANO_MultiWii_V1_31)
+
+  #define MPU6050	
+  #define BMP085
+  #define HMC5883
+
+  #define ACC_ORIENTATION(X, Y, Z) {accADC[ROLL]  =  Y; accADC[PITCH]  = -X; accADC[YAW]  =  Z;} 
+  #define GYRO_ORIENTATION(X, Y, Z){gyroADC[ROLL] =  X; gyroADC[PITCH] =  Y; gyroADC[YAW] = -Z;} 
+  #define MAG_ORIENTATION(X, Y, Z) {magADC[ROLL]  = -Y; magADC[PITCH]  =  -X; magADC[YAW] =  Z;} 
+  
+  //#define EXT_MOTOR_RANGE
+  
+ // #define MPU6050_I2C_AUX_MASTER
+  
+ // #define SERIAL_SUM_PPM         THROTTLE,ROLL,YAW,PITCH,AUX1,AUX2,AUX3,AUX4,8,9,10,11 //For Graupner/Spektrum
+  #define SERIAL_SUM_PPM         PITCH,YAW,THROTTLE,ROLL,AUX1,AUX2,AUX3,AUX4,8,9,10,11 //For Graupner/Spektrum
+
+#endif
+
 #if defined(LADYBIRD)
   #define MPU6050
   #define ACC_ORIENTATION(X, Y, Z)  {accADC[ROLL]  = -X; accADC[PITCH]  = -Y; accADC[YAW]  =  Z;}

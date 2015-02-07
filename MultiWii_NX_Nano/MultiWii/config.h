@@ -65,13 +65,13 @@
 
   /****************************    Motor maxthrottle    *******************************/
     /* this is the maximum value for the ESCs at full power, this value can be increased up to 2000 */
+    //#define MAXTHROTTLE 2000
     #define MAXTHROTTLE 1850
-
   /****************************    Mincommand          *******************************/
     /* this is the value for the ESCs when they are not armed
        in some cases, this value must be lowered down to 900 for some specific ESCs, otherwise they failed to initiate */
-    #define MINCOMMAND  1000
-    //#define MINCOMMAND  900
+    //#define MINCOMMAND  1000
+    #define MINCOMMAND  900
 
   /**********************************  I2C speed for old WMP config (useless config for other sensors)  *************/
    // #define I2C_SPEED 100000L     //100kHz normal mode, this value must be used for a genuine WMP
@@ -79,7 +79,7 @@
 
   /***************************    Internal i2c Pullups   ********************************/
     /* enable internal I2C pull ups (in most cases it is better to use external pullups) */
-    //#define INTERNAL_I2C_PULLUPS
+    #define INTERNAL_I2C_PULLUPS
 
   /**************************************************************************************/
   /*****************          boards and sensor definitions            ******************/
@@ -624,15 +624,15 @@ At this moment you can use this function only with WinGUI 2.3 release. MultiWiiC
     //#define LED_RING
 
   /********************************    LED FLASHER    ***********************************/
-    //#define LED_FLASHER
-    //#define LED_FLASHER_DDR DDRB
-    //#define LED_FLASHER_PORT PORTB
-    //#define LED_FLASHER_BIT PORTB4
-    //#define LED_FLASHER_INVERT
-    //#define LED_FLASHER_SEQUENCE        0b00000000      // leds OFF
-    //#define LED_FLASHER_SEQUENCE_ARMED  0b00000101      // create double flashes
-    //#define LED_FLASHER_SEQUENCE_MAX    0b11111111      // full illumination
-    //#define LED_FLASHER_SEQUENCE_LOW    0b00000000      // no illumination
+//    #define LED_FLASHER
+//    #define LED_FLASHER_DDR DDRB
+//    #define LED_FLASHER_PORT PORTD
+//    #define LED_FLASHER_BIT PORTD5
+//    #define LED_FLASHER_INVERT
+//    #define LED_FLASHER_SEQUENCE        0b00000000      // leds OFF
+//    #define LED_FLASHER_SEQUENCE_ARMED  0b00000101      // create double flashes
+//    #define LED_FLASHER_SEQUENCE_MAX    0b11111111      // full illumination
+//    #define LED_FLASHER_SEQUENCE_LOW    0b00000000      // no illumination
 
 
   /*******************************    Landing lights    *********************************/
