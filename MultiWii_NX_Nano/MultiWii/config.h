@@ -624,15 +624,15 @@ At this moment you can use this function only with WinGUI 2.3 release. MultiWiiC
     //#define LED_RING
 
   /********************************    LED FLASHER    ***********************************/
-//    #define LED_FLASHER
-//    #define LED_FLASHER_DDR DDRB
-//    #define LED_FLASHER_PORT PORTD
-//    #define LED_FLASHER_BIT PORTD5
-//    #define LED_FLASHER_INVERT
-//    #define LED_FLASHER_SEQUENCE        0b00000000      // leds OFF
-//    #define LED_FLASHER_SEQUENCE_ARMED  0b00000101      // create double flashes
-//    #define LED_FLASHER_SEQUENCE_MAX    0b11111111      // full illumination
-//    #define LED_FLASHER_SEQUENCE_LOW    0b00000000      // no illumination
+    #define LED_FLASHER
+    #define LED_FLASHER_DDR DDRB
+    #define LED_FLASHER_PORT PORTD
+    #define LED_FLASHER_BIT PORTD5
+    #define LED_FLASHER_INVERT
+    #define LED_FLASHER_SEQUENCE        0b11111111      // leds OFF
+    #define LED_FLASHER_SEQUENCE_ARMED  0b11111010      // create double flashes
+    #define LED_FLASHER_SEQUENCE_MAX    0b00000000      // full illumination
+    #define LED_FLASHER_SEQUENCE_LOW    0b11111111      // no illumination
 
 
   /*******************************    Landing lights    *********************************/
@@ -906,10 +906,10 @@ Also note, that maqgnetic declination changes with time, so recheck your value e
        must be associated with #define BUZZER ! */
     //#define VBAT              // uncomment this line to activate the vbat code
     #define VBATSCALE       131 // (*) (**) change this value if readed Battery voltage is different than real voltage
-    #define VBATNOMINAL     126 // 12,6V full battery nominal voltage - only used for lcd.telemetry
-    #define VBATLEVEL_WARN1 107 // (*) (**) 10,7V
-    #define VBATLEVEL_WARN2  99 // (*) (**) 9.9V
-    #define VBATLEVEL_CRIT   93 // (*) (**) 9.3V - critical condition: if vbat ever goes below this value, permanent alarm is triggered
+    #define VBATNOMINAL     42 // 12,6V full battery nominal voltage - only used for lcd.telemetry
+    #define VBATLEVEL_WARN1 39 // (*) (**) 10,7V
+    #define VBATLEVEL_WARN2  37 // (*) (**) 9.9V
+    #define VBATLEVEL_CRIT   36 // (*) (**) 9.3V - critical condition: if vbat ever goes below this value, permanent alarm is triggered
     #define NO_VBAT          16 // Avoid beeping without any battery
 
 
