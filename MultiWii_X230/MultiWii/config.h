@@ -587,7 +587,7 @@
     #define LED_FLASHER_BIT PORTC4 //Pino 33 da AIO
     //#define LED_FLASHER_INVERT
     #define LED_FLASHER_SEQUENCE        0b00000000      // leds OFF
-    #define LED_FLASHER_SEQUENCE_ARMED  0b00000101      // create double flashes
+    #define LED_FLASHER_SEQUENCE_ARMED  0b00010101      // create double flashes
     #define LED_FLASHER_SEQUENCE_MAX    0b11111111      // full illumination
     #define LED_FLASHER_SEQUENCE_LOW    0b00000000      // no illumination
 
@@ -612,7 +612,7 @@
     /* This will activate the ACC-Inflight calibration if unchecked */
     //#define INFLIGHT_ACC_CALIBRATION
 
-  /*******************************    OSD Switch    *************************************/
+  /*234777******************************    OSD Switch    *************************************/
     // This adds a box that can be interpreted by OSD in activation status (to switch on/off the overlay for instance)
   //#define OSD_SWITCH
 
@@ -638,7 +638,7 @@
     //#define GPS_PROMINI_SERIAL   // Will Autosense if GPS is connected when ardu boots.
 
     // avoid using 115200 baud because with 16MHz arduino the 115200 baudrate have more than 2% speed error (57600 have 0.8% error)
-    #define GPS_BAUD 4800
+    #define GPS_BAUD 115200
 
    /* GPS protocol 
        NMEA  - Standard NMEA protocol GGA, GSA and RMC  sentences are needed
@@ -647,8 +647,8 @@
        With UBLOX and MTK_BINARY you don't have to use GPS_FILTERING in multiwii code !!! */
 
     
-    #define NMEA
-    //#define UBLOX
+    //#define NMEA
+    #define UBLOX
     //#define MTK_BINARY16
     //#define MTK_BINARY19
     //#define INIT_MTK_GPS        // initialize MTK GPS for using selected speed, 5Hz update rate and GGA & RMC sentence or binary settings
@@ -807,7 +807,7 @@
        with R1=33k and R2=51k
        vbat = [0;1023]*16/VBATSCALE
        must be associated with #define BUZZER ! */
-    #define VBAT              // uncomment this line to activate the vbat code
+    //#define VBAT              // uncomment this line to activate the vbat code
     #define VBATSCALE       131 // (*) (**) change this value if readed Battery voltage is different than real voltage
     #define VBATNOMINAL     126 // 12,6V full battery nominal voltage - only used for lcd.telemetry
     #define VBATLEVEL_WARN1 107 // (*) (**) 10,7V
