@@ -1,4 +1,5 @@
 //Boolean detém um dos dois valores, verdadeiro(true) ou falso(false). 
+
 //Cada variável boolean ocupa um byte de memória.
 
 int LEDpin = 13;       // LED on pin 13
