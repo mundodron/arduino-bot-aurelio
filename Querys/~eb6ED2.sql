@@ -1,0 +1,1 @@
+select * from gvt_historico_cdrs_ajustados where dt_ajuste < sysdate -15 and rownum < 3000 order by dt_ajuste desc

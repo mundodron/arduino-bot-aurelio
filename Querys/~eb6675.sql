@@ -1,0 +1,1 @@
+select * from GRCOWN.PROC_CARGA_SP

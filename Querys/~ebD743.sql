@@ -1,0 +1,1 @@
+select * from all_tables where owner = 'G0023421SQL'

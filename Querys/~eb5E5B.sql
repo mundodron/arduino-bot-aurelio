@@ -1,0 +1,1 @@
+select * from customer_id_equip_map where external_id = '4132428665'

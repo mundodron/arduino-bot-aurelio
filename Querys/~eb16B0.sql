@@ -1,0 +1,1 @@
+select NUMERO_FATURA,IMAGE_TYPE, IMAGE_NUMBER, DATA_EMISSAO from customer_care where numero_fatura = '0135582523-0'

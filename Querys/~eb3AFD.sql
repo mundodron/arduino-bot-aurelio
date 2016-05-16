@@ -1,0 +1,1 @@
+select * from PL0720_DATA

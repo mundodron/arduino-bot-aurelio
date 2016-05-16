@@ -1,0 +1,1 @@
+select * from retorno_corrompidas_abnc

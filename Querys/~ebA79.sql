@@ -1,0 +1,1 @@
+select * from gvt_dacc_gerencia_fila_eventos where trunc(dt_evento) = to_date('14/01/2012','dd/mm/yyyy') 

@@ -1,0 +1,1 @@
+select * from bill_invoice where account_no = 9950983 and bill_ref_no = 260728180

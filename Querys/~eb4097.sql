@@ -1,0 +1,1 @@
+select * from g0023421sql.GVT_VAL_PLANO

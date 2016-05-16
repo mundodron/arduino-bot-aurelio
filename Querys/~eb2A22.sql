@@ -1,0 +1,1 @@
+select * from lbx_error where bill_ref_no = 145414262

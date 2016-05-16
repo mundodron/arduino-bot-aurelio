@@ -1,0 +1,1 @@
+select * from customer_care where numero_fatura = '0135619253-0'

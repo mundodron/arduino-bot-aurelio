@@ -1,0 +1,1 @@
+select * from gvt_no_bill_audit

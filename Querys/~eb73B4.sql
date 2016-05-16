@@ -1,0 +1,1 @@
+select * from bmf where account_no = 3236643 and gl_amount = 98035154

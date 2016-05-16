@@ -1,0 +1,1 @@
+select * from cdr_data where account_no in (3869396,8348848,8396108) and bill_ref_no in (173903103,170567955,167400543,169345957)

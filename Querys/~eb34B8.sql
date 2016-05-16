@@ -1,0 +1,14 @@
+select A.BILL_REF_NO
+  from (select ACCOUNT_NO, BILL_REF_NO, FILE_NAME, FORMAT_STATUS from GVT_FBB_BILL_INVOICE
+        union all
+        select ACCOUNT_NO, BILL_REF_NO, FILE_NAME, FORMAT_STATUS from GVT_FEBRABAN_BILL_INVOICE) A,
+       GVT_FEBRABAN_BILL_FILES B,
+       GVT_FEBRABAN_ACCOUNTS C
+ where A.ACCOUNT_NO = C.ACCOUNT_NO
+   and A.FILE_NAME = B.FILENAME
+   --and a.bill_ref_no in (238656445)
+   -- and C.EXTERNAL_ID in ('999979696307')
+   --and C.ACCOUNT_NO = 4848361
+   and B.NO_BYTES = '9901052'
+   and B.CREATION_DATE >= (sysdate -120)
+  

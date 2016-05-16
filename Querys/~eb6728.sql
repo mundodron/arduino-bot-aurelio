@@ -1,0 +1,1 @@
+select external_id, bill_ref_no from contas

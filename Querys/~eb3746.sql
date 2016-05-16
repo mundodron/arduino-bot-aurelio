@@ -1,0 +1,1 @@
+select * from g0023421sql.proforma_full_m02

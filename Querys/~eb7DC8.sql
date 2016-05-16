@@ -1,0 +1,1 @@
+select B.PREP_STATUS, B.PREP_ERROR_CODE, B.FILE_NAME from bill_invoice b where PREP_ERROR_CODE is not null

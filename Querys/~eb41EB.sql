@@ -1,0 +1,1 @@
+select * from gvt_exec_arg where nome_programa = 'PLCON_0001' order by 1 desc

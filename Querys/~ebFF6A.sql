@@ -1,0 +1,1 @@
+SELECT rowid, arg.* FROM gvt_exec_arg arg where nome_programa = upper('pl0201') order by num_execucao desc

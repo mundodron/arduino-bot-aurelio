@@ -1,0 +1,1 @@
+select lote, TCOE, status from grc_servicos_prestados where lote = 'TCOE.T401141.S01.D241214.H080029'

@@ -1,0 +1,1 @@
+select * from GVT_FEBRABAN_BILL_INVOICE 

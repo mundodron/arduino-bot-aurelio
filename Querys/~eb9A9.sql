@@ -1,0 +1,1 @@
+select * from gvt_campanhas_especiais

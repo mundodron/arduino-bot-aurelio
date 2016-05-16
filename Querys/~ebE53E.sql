@@ -1,0 +1,15 @@
+Insert into ARBORGVT_PAYMENTS.GVT_FEBRABAN_PONTA_B_ARBOR
+  (ROW_ID, CMF_EXT_ID, EMF_EXT_ID, SERVICE_START, DEGRAU, VELOCIDADE, UNID_VELOCIDADE, CNLA, CNLB, ADDRESS_B, COMPL_B, DISTRICT_B)
+Values
+  ('3-W2R1LY', '999985081812', 'RJO-30XRF8IW', TO_DATE('03/27/2012 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), 's/', 100, 'MB        ', '21000', '21000', 'AVENIDA RIO BRANCO 123', 'AN 3', 'RJ');                 
+
+Insert into ARBORGVT_PAYMENTS.GVT_FEBRABAN_PONTA_B_ARBOR
+  (     ROW_ID,     CMF_EXT_ID, EMF_EXT_ID        , SERVICE_START                                          , DEGRAU, VELOCIDADE, UNID_VELOCIDADE,    CNLA,    CNLB,                ADDRESS_B, COMPL_B, DISTRICT_B)
+Values
+  ('3-111LT24', '999987348053', 'RJO-30XRF8J5-003', TO_DATE('11/04/2011 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), 's/'  , 100       , 'MB        '   , '21000', '21000', 'AVENIDA RIO BRANCO 123',  'AN 3', 'RJ');
+COMMIT;
+
+
+select * from s_org_ext where x_acct_id_num = '999985081812'
+
+select * from service where subscr_no = 

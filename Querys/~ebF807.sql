@@ -1,0 +1,18 @@
+select f.ACCOUNT_NO, f.TRACKING_ID, f.TRACKING_ID_SERV, f.TRANS_AMOUNT,  B.NEW_CHARGES, F.GL_AMOUNT, f.PAY_METHOD, f.TRANS_SUBMITTER
+  from cmf_balance b,
+       bmf f,
+       G0023421SQL.GVT_RAJADAS R
+  where b.ACCOUNT_NO = R.ACCOUNT_NO
+    and B.BILL_REF_NO = R.BILL_REF_NO
+    and B.ACCOUNT_NO = F.ACCOUNT_NO
+    and B.BILL_REF_NO = F.orig_BILL_REF_NO
+    and B.BILL_REF_RESETS = F.orig_BILL_REF_RESETS
+    and F.DISTRIBUTED_AMOUNT = 0
+    and R.VALOR = F.TRANS_AMOUNT
+    and R.status = 2;
+    
+    select * from gvt_rajadas
+    
+    select * from bmf
+   
+    select * from bill_invoice

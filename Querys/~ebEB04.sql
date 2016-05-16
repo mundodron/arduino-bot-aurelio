@@ -1,0 +1,1 @@
+select * from GVT_FEBRABAN_PONTA_B_ARBOR_bk where CMF_EXT_ID not in (select CMF_EXT_ID from GVT_FEBRABAN_PONTA_B_ARBOR)

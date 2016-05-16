@@ -1,0 +1,1 @@
+select account_category, no_bill, date_active, date_inactive from cmf where account_no in (8456551,6708492,8418796,7350136,7560764,6437573,4527142)

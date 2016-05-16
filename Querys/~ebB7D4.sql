@@ -1,0 +1,1 @@
+delete from gvt_ctrl_fluxo_caixa where external_id in (select external_id from g0023421sql.erro_FLUXO_CAIXA) and 

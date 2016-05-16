@@ -1,0 +1,1 @@
+select * from bill_invoice_detail where bill_ref_no = 180146123 order by type_code

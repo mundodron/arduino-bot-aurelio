@@ -1,0 +1,1 @@
+select External_ID, bill_ref_no from GVT_CDBARRAS 

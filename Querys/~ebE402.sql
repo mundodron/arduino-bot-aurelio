@@ -1,0 +1,1 @@
+select * from gvt_fbb_bill_invoice where bill_ref_no in (147828227,147823982,147828231)

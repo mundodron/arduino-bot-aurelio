@@ -1,0 +1,1 @@
+select * from CDC_PROCESSAR_BACKLOG

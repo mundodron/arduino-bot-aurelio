@@ -1,0 +1,1 @@
+select * from ARBORGVT_PAYMENTS.GVT_FEBRABAN_PONTA_B_ARBOR where cmf_ext_id = 999985081812

@@ -1,0 +1,1 @@
+select external_id, account_no, bill_ref_no, valor from gvt_rajadas where status = 1 and account_no is not null

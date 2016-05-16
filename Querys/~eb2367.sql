@@ -1,0 +1,3 @@
+SELECT * FROM g0023421sql.GVT_VAL_PLANO
+
+delete FROM g0023421sql.GVT_VAL_PLANO where component_id = 11015

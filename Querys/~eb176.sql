@@ -1,0 +1,1 @@
+select * from gvt_febraban_bill_invoice where bill_ref_no in (145310104,145310108)

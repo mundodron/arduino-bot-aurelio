@@ -1,0 +1,1 @@
+           grant all on proforma_full_m02 to public

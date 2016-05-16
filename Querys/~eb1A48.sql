@@ -1,0 +1,1 @@
+update ARBORGVT_PAYMENTS.gvt_dacc_controle_nsa set NSA = (NSA - 1) where CLEARING_HOUSE_ID in (745,409,748,399,341,275,237,104,001);

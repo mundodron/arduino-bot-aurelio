@@ -1,0 +1,1 @@
+select telefone_ from GRC_NAOFATURACONJUNTO

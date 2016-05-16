@@ -1,0 +1,1 @@
+select * from gvt_liberacao_boleto order by chg_date asc

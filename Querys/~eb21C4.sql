@@ -1,0 +1,1 @@
+select * from GVT_DACC_GERENCIA_FILA_EVENTOS

@@ -1,0 +1,1 @@
+        select * from customer_id_acct_map where active_date > sysdate -30

@@ -1,0 +1,1 @@
+select * from gvt_febraban_accounts where external_id in ('999980674767')
